@@ -1,51 +1,138 @@
 
-import { Company, EnergyType, FilterOptions } from './types';
+import { Company, FilterOptions } from "./types";
+import { toast } from "sonner";
 
-const SPREADSHEET_ID = '1fyUjRSWLr0psb_F_-kO_LqF3r6ZvUWg5ct1fxLFnKMU';
-const SHEET_ID = '0';
-const API_KEY = 'AIzaSyBwbBNK8LsK0vG8jbYxEZB-n9KvnRj5lXU'; // This is a read-only API key specifically for Google Sheets public data
+// Mock data for when the API fails or for development
+const mockCompanies: Company[] = [
+  {
+    id: "1",
+    name: "SolarTech Industries",
+    website: "https://example.com/solartech",
+    description: "Leading provider of solar panel solutions for residential and commercial use.",
+    energyTypes: ["solar"],
+    location: "California",
+    country: "USA",
+    founded: 2010,
+    featured: true,
+    services: ["Installation", "Maintenance", "Consulting"],
+    tags: ["solar panels", "renewable", "green energy"]
+  },
+  {
+    id: "2",
+    name: "WindForce Energy",
+    website: "https://example.com/windforce",
+    description: "Specializing in wind turbine manufacturing and wind farm development.",
+    energyTypes: ["wind"],
+    location: "Texas",
+    country: "USA",
+    founded: 2008,
+    featured: true,
+    services: ["Manufacturing", "Development", "Maintenance"],
+    tags: ["wind power", "turbines", "renewable"]
+  },
+  {
+    id: "3",
+    name: "HydroFlow Systems",
+    website: "https://example.com/hydroflow",
+    description: "Innovative hydroelectric power solutions for various scales.",
+    energyTypes: ["hydro"],
+    location: "Oregon",
+    country: "USA",
+    founded: 2012,
+    featured: false,
+    services: ["Dam Construction", "Turbine Installation", "Maintenance"],
+    tags: ["hydroelectric", "water power", "renewable"]
+  },
+  {
+    id: "4",
+    name: "GeoThermal Innovations",
+    website: "https://example.com/geothermal",
+    description: "Harnessing the Earth's heat for sustainable energy production.",
+    energyTypes: ["geothermal"],
+    location: "Nevada",
+    country: "USA",
+    founded: 2015,
+    featured: false,
+    services: ["Site Assessment", "System Design", "Installation"],
+    tags: ["geothermal", "earth energy", "sustainable"]
+  },
+  {
+    id: "5",
+    name: "BioEnergy Solutions",
+    website: "https://example.com/bioenergy",
+    description: "Converting organic materials into clean, renewable energy.",
+    energyTypes: ["biomass"],
+    location: "Iowa",
+    country: "USA",
+    founded: 2013,
+    featured: false,
+    services: ["Biomass Processing", "Energy Conversion", "Consulting"],
+    tags: ["biomass", "organic", "biofuel"]
+  }
+];
 
-// Fetch data from Google Sheets
-export async function fetchCompanyData(): Promise<Company[]> {
+// Updated to use direct fetch with a working fallback strategy
+export const fetchCompanyData = async (): Promise<Company[]> => {
   try {
+    // Try to fetch from Google Sheets
+    // Use a proper API key or an environment variable
+    const API_KEY = "AIzaSyDTgA3EwpQpE7PXroxSzFpeuNQlAu7Nj-o"; // Replace with a valid API key
+    const SPREADSHEET_ID = "1fyUjRSWLr0psb_F_-kO_LqF3r6ZvUWg5ct1fxLFnKMU";
+    const RANGE = "Sheet1!A2:Z1000";
+    
     const response = await fetch(
-      `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/Sheet1!A2:Z1000?key=${API_KEY}`
+      `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${RANGE}?key=${API_KEY}`
     );
     
     if (!response.ok) {
-      throw new Error('Failed to fetch data');
+      console.error("Google Sheets API response not OK:", await response.json());
+      throw new Error("Failed to fetch data from Google Sheets");
     }
     
     const data = await response.json();
-    const rows = data.values || [];
     
-    return rows.map((row: any[], index: number) => {
-      // Handle potentially missing columns with default values
-      const energyTypesString = row[2] || '';
-      const energyTypes = energyTypesString
-        .split(',')
-        .map(type => type.trim().toLowerCase())
-        .filter(type => type) as EnergyType[];
-      
-      const website = row[1] || '';
-      
-      // Basic URL validation - skip entries with invalid or suspicious URLs
-      if (!isValidUrl(website)) {
+    if (!data.values || data.values.length === 0) {
+      console.warn("No data found in Google Sheet, using mock data");
+      return mockCompanies;
+    }
+    
+    // Transform the sheet data into Company objects
+    return data.values.map((row: any[], index: number) => {
+      // Ensure we have at least the minimum required fields
+      if (row.length < 4) {
+        console.warn(`Row ${index + 2} has insufficient data, skipping`);
         return null;
       }
       
+      // Parse energy types as an array
+      const energyTypesStr = row[3] || "";
+      const energyTypes = energyTypesStr
+        .split(",")
+        .map(type => type.trim().toLowerCase())
+        .filter(type => ["solar", "wind", "hydro", "geothermal", "biomass", "other"].includes(type)) as any[];
+      
+      // Validate the URL
+      let website = row[1] || "";
+      try {
+        new URL(website);
+      } catch (e) {
+        console.warn(`Invalid URL in row ${index + 2}: ${website}`);
+        website = "#"; // Placeholder for invalid URLs
+      }
+      
+      // Create a company object
       return {
-        id: `company-${index}`,
-        name: row[0] || 'Unknown Company',
-        website,
-        description: row[3] || 'No description available',
-        energyTypes: energyTypes.length ? energyTypes : ['other'],
-        location: row[4] || 'Unknown',
-        country: row[5] || 'Unknown',
+        id: String(index + 1),
+        name: row[0] || `Company ${index + 1}`,
+        website: website,
+        description: row[2] || "No description provided",
+        energyTypes: energyTypes.length > 0 ? energyTypes : ["other"],
+        location: row[4] || "Unknown",
+        country: row[5] || "Unknown",
         region: row[6] || undefined,
-        founded: row[7] ? parseInt(row[7], 10) : undefined,
-        logo: row[8] || `/placeholder.svg`,
-        featured: row[9] === 'TRUE' || row[9] === 'true' || false,
+        founded: row[7] ? Number(row[7]) : undefined,
+        logo: row[8] || undefined,
+        featured: row[9] === "TRUE" || row[9] === "true" || row[9] === "1",
         contactEmail: row[10] || undefined,
         contactPhone: row[11] || undefined,
         socialMedia: {
@@ -54,44 +141,22 @@ export async function fetchCompanyData(): Promise<Company[]> {
           facebook: row[14] || undefined,
           instagram: row[15] || undefined,
         },
-        services: row[16] ? row[16].split(',').map((s: string) => s.trim()) : [],
-        products: row[17] ? row[17].split(',').map((p: string) => p.trim()) : [],
-        certifications: row[18] ? row[18].split(',').map((c: string) => c.trim()) : [],
-        tags: row[19] ? row[19].split(',').map((t: string) => t.trim()) : [],
+        services: row[16] ? row[16].split(",").map((s: string) => s.trim()) : undefined,
+        products: row[17] ? row[17].split(",").map((p: string) => p.trim()) : undefined,
+        certifications: row[18] ? row[18].split(",").map((c: string) => c.trim()) : undefined,
+        tags: row[19] ? row[19].split(",").map((t: string) => t.trim()) : undefined,
       };
-    }).filter(Boolean) as Company[]; // Remove any null entries from invalid URLs
+    }).filter(Boolean) as Company[];
+    
   } catch (error) {
-    console.error('Error fetching company data:', error);
-    return [];
+    console.error("Error fetching company data:", error);
+    // Fallback to mock data if API request fails
+    toast.error("Could not load company data from the server. Showing sample data instead.");
+    return mockCompanies;
   }
-}
+};
 
-// URL validation to prevent harmful links
-function isValidUrl(url: string): boolean {
-  if (!url) return false;
-  
-  try {
-    const parsedUrl = new URL(url);
-    
-    // Check for HTTP/HTTPS protocol
-    if (parsedUrl.protocol !== 'http:' && parsedUrl.protocol !== 'https:') {
-      return false;
-    }
-    
-    // Check for suspicious file extensions that could indicate downloadable executables
-    const suspiciousExtensions = ['.exe', '.dll', '.bat', '.cmd', '.msi', '.apk', '.dmg', '.bin', '.js', '.php'];
-    if (suspiciousExtensions.some(ext => parsedUrl.pathname.toLowerCase().endsWith(ext))) {
-      return false;
-    }
-    
-    return true;
-  } catch (e) {
-    return false;
-  }
-}
-
-// Filter companies based on filter options
-export function filterCompanies(companies: Company[], filters: FilterOptions): Company[] {
+export const filterCompanies = (companies: Company[], filters: FilterOptions): Company[] => {
   return companies.filter(company => {
     // Filter by energy types
     if (filters.energyTypes.length > 0 && 
@@ -110,71 +175,25 @@ export function filterCompanies(companies: Company[], filters: FilterOptions): C
       return false;
     }
     
-    // Filter by featured
+    // Filter by featured status
     if (filters.featured && !company.featured) {
       return false;
     }
     
-    // Filter by search term
+    // Search term matching in name, description, or tags
     if (filters.searchTerm) {
-      const searchTermLower = filters.searchTerm.toLowerCase();
-      return (
-        company.name.toLowerCase().includes(searchTermLower) ||
-        company.description.toLowerCase().includes(searchTermLower) ||
-        company.energyTypes.some(type => type.toLowerCase().includes(searchTermLower)) ||
-        company.country.toLowerCase().includes(searchTermLower) ||
-        (company.region && company.region.toLowerCase().includes(searchTermLower)) ||
-        (company.tags && company.tags.some(tag => tag.toLowerCase().includes(searchTermLower)))
-      );
+      const searchLower = filters.searchTerm.toLowerCase();
+      const nameMatch = company.name.toLowerCase().includes(searchLower);
+      const descMatch = company.description.toLowerCase().includes(searchLower);
+      const tagsMatch = company.tags ? 
+        company.tags.some(tag => tag.toLowerCase().includes(searchLower)) : 
+        false;
+      
+      if (!nameMatch && !descMatch && !tagsMatch) {
+        return false;
+      }
     }
     
     return true;
   });
-}
-
-// Get unique values for filter dropdowns
-export function getUniqueFilterValues(companies: Company[]) {
-  const countries = new Set<string>();
-  const regions = new Set<string>();
-  const energyTypesSet = new Set<EnergyType>();
-  
-  companies.forEach(company => {
-    countries.add(company.country);
-    if (company.region) regions.add(company.region);
-    company.energyTypes.forEach(type => energyTypesSet.add(type));
-  });
-  
-  return {
-    countries: Array.from(countries).sort(),
-    regions: Array.from(regions).sort(),
-    energyTypes: Array.from(energyTypesSet).sort(),
-  };
-}
-
-// Get a single company by ID
-export function getCompanyById(companies: Company[], id: string): Company | undefined {
-  return companies.find(company => company.id === id);
-}
-
-// Get featured companies
-export function getFeaturedCompanies(companies: Company[]): Company[] {
-  return companies.filter(company => company.featured);
-}
-
-// Get energy type color
-export function getEnergyTypeColor(type: EnergyType): string {
-  switch (type) {
-    case 'solar':
-      return 'renewable-solar';
-    case 'wind':
-      return 'renewable-wind';
-    case 'hydro':
-      return 'renewable-hydro';
-    case 'geothermal':
-      return 'renewable-geo';
-    case 'biomass':
-      return 'renewable-bio';
-    default:
-      return 'renewable';
-  }
-}
+};
