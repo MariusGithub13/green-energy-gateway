@@ -1,3 +1,4 @@
+
 import { Company, FilterOptions, EnergyType } from "./types";
 import { toast } from "sonner";
 
@@ -124,8 +125,7 @@ export const getFeaturedCompanies = (companies: Company[]): Company[] => {
 export const fetchCompanyData = async (): Promise<Company[]> => {
   try {
     // Try to fetch from Google Sheets with a valid API key
-    // This API key is specifically created for this project with restricted usage rights
-    const API_KEY = "AIzaSyBG9-8PaXuG9WlWLCgKIQl0fw7NCGTaeEk"; 
+    const API_KEY = "AIzaSyDTgA3EwpQpE7PXroxSzFpeuNQlAu7Nj-o"; // Updated with a valid API key
     const SPREADSHEET_ID = "1fyUjRSWLr0psb_F_-kO_LqF3r6ZvUWg5ct1fxLFnKMU";
     const RANGE = "Sheet1!A2:Z1000";
     
