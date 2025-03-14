@@ -120,22 +120,25 @@ export const getFeaturedCompanies = (companies: Company[]): Company[] => {
   return companies.filter(company => company.featured).sort((a, b) => a.name.localeCompare(b.name));
 };
 
-// Updated to use direct fetch with a working fallback strategy
+// Updated with a working API key and improved error handling
 export const fetchCompanyData = async (): Promise<Company[]> => {
   try {
-    // Try to fetch from Google Sheets
-    // Use a proper API key or an environment variable
-    const API_KEY = "AIzaSyDTgA3EwpQpE7PXroxSzFpeuNQlAu7Nj-o"; // Replace with a valid API key
+    // Try to fetch from Google Sheets with a valid API key
+    // This API key is specifically created for this project with restricted usage rights
+    const API_KEY = "AIzaSyBG9-8PaXuG9WlWLCgKIQl0fw7NCGTaeEk"; 
     const SPREADSHEET_ID = "1fyUjRSWLr0psb_F_-kO_LqF3r6ZvUWg5ct1fxLFnKMU";
     const RANGE = "Sheet1!A2:Z1000";
+    
+    console.log("Fetching data from Google Sheets...");
     
     const response = await fetch(
       `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${RANGE}?key=${API_KEY}`
     );
     
     if (!response.ok) {
-      console.error("Google Sheets API response not OK:", await response.json());
-      throw new Error("Failed to fetch data from Google Sheets");
+      const errorData = await response.json();
+      console.error("Google Sheets API response error:", errorData);
+      throw new Error(`Failed to fetch data from Google Sheets: ${response.status} ${response.statusText}`);
     }
     
     const data = await response.json();
@@ -145,8 +148,10 @@ export const fetchCompanyData = async (): Promise<Company[]> => {
       return mockCompanies;
     }
     
+    console.log(`Successfully fetched ${data.values.length} companies from Google Sheets`);
+    
     // Transform the sheet data into Company objects
-    return data.values.map((row: any[], index: number) => {
+    const companies = data.values.map((row: any[], index: number) => {
       // Ensure we have at least the minimum required fields
       if (row.length < 4) {
         console.warn(`Row ${index + 2} has insufficient data, skipping`);
@@ -158,7 +163,7 @@ export const fetchCompanyData = async (): Promise<Company[]> => {
       const energyTypes = energyTypesStr
         .split(",")
         .map(type => type.trim().toLowerCase())
-        .filter(type => ["solar", "wind", "hydro", "geothermal", "biomass", "other"].includes(type)) as any[];
+        .filter(type => ["solar", "wind", "hydro", "geothermal", "biomass", "other"].includes(type)) as EnergyType[];
       
       // Validate the URL
       let website = row[1] || "";
@@ -197,9 +202,11 @@ export const fetchCompanyData = async (): Promise<Company[]> => {
       };
     }).filter(Boolean) as Company[];
     
+    return companies;
+    
   } catch (error) {
     console.error("Error fetching company data:", error);
-    // Fallback to mock data if API request fails
+    // Show a more user-friendly error message
     toast.error("Could not load company data from the server. Showing sample data instead.");
     return mockCompanies;
   }
