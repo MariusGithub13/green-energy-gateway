@@ -1,5 +1,4 @@
-
-import { Company, FilterOptions } from "./types";
+import { Company, FilterOptions, EnergyType } from "./types";
 import { toast } from "sonner";
 
 // Mock data for when the API fails or for development
@@ -70,6 +69,56 @@ const mockCompanies: Company[] = [
     tags: ["biomass", "organic", "biofuel"]
   }
 ];
+
+// Energy type color mapping function
+export const getEnergyTypeColor = (type: EnergyType): string => {
+  switch (type) {
+    case "solar":
+      return "yellow-600";
+    case "wind":
+      return "blue-500";
+    case "hydro":
+      return "cyan-600";
+    case "geothermal":
+      return "orange-600";
+    case "biomass":
+      return "green-600";
+    case "other":
+      return "purple-500";
+    default:
+      return "gray-500";
+  }
+};
+
+// Function to get a company by its ID
+export const getCompanyById = (companies: Company[], id: string): Company | undefined => {
+  return companies.find(company => company.id === id);
+};
+
+// Function to get unique filter values from company data
+export const getUniqueFilterValues = (companies: Company[]) => {
+  const countries = Array.from(new Set(companies.map(company => company.country)))
+    .filter(Boolean)
+    .sort();
+  
+  const regions = Array.from(new Set(companies.map(company => company.region)))
+    .filter(Boolean)
+    .sort() as string[];
+  
+  const energyTypesSet = new Set<EnergyType>();
+  companies.forEach(company => {
+    company.energyTypes.forEach(type => energyTypesSet.add(type));
+  });
+  
+  const energyTypes = Array.from(energyTypesSet).sort() as EnergyType[];
+  
+  return { countries, regions, energyTypes };
+};
+
+// Function to get featured companies
+export const getFeaturedCompanies = (companies: Company[]): Company[] => {
+  return companies.filter(company => company.featured).sort((a, b) => a.name.localeCompare(b.name));
+};
 
 // Updated to use direct fetch with a working fallback strategy
 export const fetchCompanyData = async (): Promise<Company[]> => {
