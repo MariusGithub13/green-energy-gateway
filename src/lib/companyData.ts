@@ -1,4 +1,3 @@
-
 import { Company, FilterOptions, EnergyType } from "./types";
 import { toast } from "sonner";
 
@@ -121,37 +120,69 @@ export const getFeaturedCompanies = (companies: Company[]): Company[] => {
   return companies.filter(company => company.featured).sort((a, b) => a.name.localeCompare(b.name));
 };
 
-// Updated with a working API key and improved error handling
-export const fetchCompanyData = async (): Promise<Company[]> => {
-  try {
-    // Try to fetch from Google Sheets with a valid API key
-    const API_KEY = "AIzaSyDTgA3EwpQpE7PXroxSzFpeuNQlAu7Nj-o"; // Updated with a valid API key
-    const SPREADSHEET_ID = "1fyUjRSWLr0psb_F_-kO_LqF3r6ZvUWg5ct1fxLFnKMU";
-    const RANGE = "Sheet1!A2:Z1000";
+// Parse CSV data into an array of rows
+const parseCSV = (csvText: string): string[][] => {
+  const rows: string[][] = [];
+  const lines = csvText.split('\n');
+  
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i].trim();
+    if (!line) continue;
     
-    console.log("Fetching data from Google Sheets...");
+    const values: string[] = [];
+    let inQuotes = false;
+    let currentValue = '';
     
-    const response = await fetch(
-      `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${RANGE}?key=${API_KEY}`
-    );
-    
-    if (!response.ok) {
-      const errorData = await response.json();
-      console.error("Google Sheets API response error:", errorData);
-      throw new Error(`Failed to fetch data from Google Sheets: ${response.status} ${response.statusText}`);
+    for (let j = 0; j < line.length; j++) {
+      const char = line[j];
+      
+      if (char === '"') {
+        inQuotes = !inQuotes;
+      } else if (char === ',' && !inQuotes) {
+        values.push(currentValue);
+        currentValue = '';
+      } else {
+        currentValue += char;
+      }
     }
     
-    const data = await response.json();
+    values.push(currentValue); // Add the last value
+    rows.push(values);
+  }
+  
+  return rows;
+};
+
+// Updated to fetch from CSV URL
+export const fetchCompanyData = async (): Promise<Company[]> => {
+  try {
+    const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTH5EqgU9fQ8dqF9THZdMpGa4HpCeBEBzQfbx2OPcj1tJgr3WoveJdaHzRWFrVngcW-S_XFexZiPgGW/pub?output=csv";
     
-    if (!data.values || data.values.length === 0) {
-      console.warn("No data found in Google Sheet, using mock data");
+    console.log("Fetching data from CSV URL...");
+    
+    const response = await fetch(CSV_URL);
+    
+    if (!response.ok) {
+      console.error("CSV fetch response error:", response.status, response.statusText);
+      throw new Error(`Failed to fetch data from CSV: ${response.status} ${response.statusText}`);
+    }
+    
+    const csvText = await response.text();
+    
+    if (!csvText || csvText.trim().length === 0) {
+      console.warn("No data found in CSV, using mock data");
       return mockCompanies;
     }
     
-    console.log(`Successfully fetched ${data.values.length} companies from Google Sheets`);
+    const rows = parseCSV(csvText);
     
-    // Transform the sheet data into Company objects
-    const companies = data.values.map((row: any[], index: number) => {
+    // Skip the header row
+    const dataRows = rows.slice(1);
+    
+    console.log(`Successfully fetched ${dataRows.length} companies from CSV`);
+    
+    // Transform the CSV data into Company objects
+    const companies = dataRows.map((row, index) => {
       // Ensure we have at least the minimum required fields
       if (row.length < 4) {
         console.warn(`Row ${index + 2} has insufficient data, skipping`);
