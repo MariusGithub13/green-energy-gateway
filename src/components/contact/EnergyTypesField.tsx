@@ -4,7 +4,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { UseFormReturn } from "react-hook-form";
 import { FormValues, energyTypeOptions } from "./ContactFormSchema";
 import { cn } from "@/lib/utils";
-import { getEnergyTypeColor } from "@/lib/companyData";
+import { getEnergyTypeColor } from "@/lib/energyUtils";
 
 interface EnergyTypesFieldProps {
   form: UseFormReturn<FormValues>;
