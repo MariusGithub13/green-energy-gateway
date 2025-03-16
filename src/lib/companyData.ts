@@ -16,7 +16,19 @@ export const getFeaturedCompanies = (companies: Company[]): Company[] => {
   return companies.filter(company => company.featured).sort((a, b) => a.name.localeCompare(b.name));
 };
 
-// Updated to fetch from CSV URL
+// Helper to ensure URL has proper format
+const formatURL = (url: string): string => {
+  if (!url || url.trim() === '') return '';
+  
+  // Check if URL starts with http:// or https://
+  if (!url.match(/^https?:\/\//i)) {
+    return `https://${url}`;
+  }
+  
+  return url;
+};
+
+// Updated to fetch from CSV URL and properly process data
 export const fetchCompanyData = async (): Promise<Company[]> => {
   try {
     const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTH5EqgU9fQ8dqF9THZdMpGa4HpCeBEBzQfbx2OPcj1tJgr3WoveJdaHzRWFrVngcW-S_XFexZiPgGW/pub?output=csv";
@@ -59,40 +71,46 @@ export const fetchCompanyData = async (): Promise<Company[]> => {
         .map(type => type.trim().toLowerCase())
         .filter(type => ["solar", "wind", "hydro", "geothermal", "biomass", "other"].includes(type)) as EnergyType[];
       
-      // Validate the URL
-      let website = row[1] || "";
-      try {
-        new URL(website);
-      } catch (e) {
-        console.warn(`Invalid URL in row ${index + 2}: ${website}`);
-        website = "#"; // Placeholder for invalid URLs
+      // Get the website URL and properly format it
+      let website = row[6] || "";
+      if (website && website.trim() !== "") {
+        try {
+          website = formatURL(website);
+          // Test if URL is valid
+          new URL(website);
+        } catch (e) {
+          console.warn(`Invalid URL in row ${index + 2}: ${website}`);
+          website = "#"; // Placeholder for invalid URLs
+        }
+      } else {
+        website = "#";
       }
       
       // Create a company object
       return {
         id: String(index + 1),
-        name: row[0] || `Company ${index + 1}`,
+        name: row[2] || `Company ${index + 1}`,
         website: website,
-        description: row[2] || "No description provided",
+        description: row[4] || "No description provided",
         energyTypes: energyTypes.length > 0 ? energyTypes : ["other"],
-        location: row[4] || "Unknown",
-        country: row[5] || "Unknown",
-        region: row[6] || undefined,
-        founded: row[7] ? Number(row[7]) : undefined,
-        logo: row[8] || undefined,
-        featured: row[9] === "TRUE" || row[9] === "true" || row[9] === "1",
-        contactEmail: row[10] || undefined,
-        contactPhone: row[11] || undefined,
+        location: row[0] || "Unknown",
+        country: row[1] || "Unknown",
+        region: row[0] || undefined,
+        founded: undefined,
+        logo: row[7] || undefined,
+        featured: row[8] === "published" || false,
+        contactEmail: undefined,
+        contactPhone: undefined,
         socialMedia: {
-          linkedin: row[12] || undefined,
-          twitter: row[13] || undefined,
-          facebook: row[14] || undefined,
-          instagram: row[15] || undefined,
+          linkedin: undefined,
+          twitter: undefined,
+          facebook: undefined,
+          instagram: undefined,
         },
-        services: row[16] ? row[16].split(",").map((s: string) => s.trim()) : undefined,
-        products: row[17] ? row[17].split(",").map((p: string) => p.trim()) : undefined,
-        certifications: row[18] ? row[18].split(",").map((c: string) => c.trim()) : undefined,
-        tags: row[19] ? row[19].split(",").map((t: string) => t.trim()) : undefined,
+        services: undefined,
+        products: undefined,
+        certifications: undefined,
+        tags: row[9] ? row[9].split(";").map((t: string) => t.trim()) : undefined,
       };
     }).filter(Boolean) as Company[];
     

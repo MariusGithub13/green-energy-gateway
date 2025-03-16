@@ -45,12 +45,14 @@ const CompanySidebar = ({ company }: CompanySidebarProps) => {
             <h4 className="font-medium mb-3">Connect</h4>
             
             <div className="space-y-3">
-              <SocialMediaLinks 
-                website={company.website}
-                iconSize={16}
-                showLabels={true}
-                variant="default"
-              />
+              {company.website && company.website !== "#" && (
+                <SocialMediaLinks 
+                  website={company.website}
+                  iconSize={16}
+                  showLabels={true}
+                  variant="default"
+                />
+              )}
               
               {company.contactEmail && (
                 <a
