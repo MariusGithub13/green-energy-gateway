@@ -1,9 +1,10 @@
 
 import { Link } from 'react-router-dom';
-import { ExternalLink, MapPin, Calendar, Mail, Phone } from 'lucide-react';
+import { MapPin, Calendar, Mail, Phone } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { Company } from '@/lib/types';
+import SocialMediaLinks from '@/components/SocialMediaLinks';
 
 interface CompanySidebarProps {
   company: Company;
@@ -44,15 +45,12 @@ const CompanySidebar = ({ company }: CompanySidebarProps) => {
             <h4 className="font-medium mb-3">Connect</h4>
             
             <div className="space-y-3">
-              <a
-                href={company.website}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center text-primary hover:underline"
-              >
-                <ExternalLink className="h-4 w-4 mr-2" />
-                Visit Website
-              </a>
+              <SocialMediaLinks 
+                website={company.website}
+                iconSize={16}
+                showLabels={true}
+                variant="default"
+              />
               
               {company.contactEmail && (
                 <a
@@ -83,55 +81,15 @@ const CompanySidebar = ({ company }: CompanySidebarProps) => {
               <div>
                 <h4 className="font-medium mb-3">Social Media</h4>
                 
-                <div className="space-y-3">
-                  {company.socialMedia.linkedin && (
-                    <a
-                      href={company.socialMedia.linkedin}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center text-foreground/80 hover:text-[#0077B5] transition-colors"
-                    >
-                      <span className="i-lucide-linkedin h-4 w-4 mr-2"></span>
-                      LinkedIn
-                    </a>
-                  )}
-                  
-                  {company.socialMedia.twitter && (
-                    <a
-                      href={company.socialMedia.twitter}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center text-foreground/80 hover:text-[#1DA1F2] transition-colors"
-                    >
-                      <span className="i-lucide-twitter h-4 w-4 mr-2"></span>
-                      Twitter
-                    </a>
-                  )}
-                  
-                  {company.socialMedia.facebook && (
-                    <a
-                      href={company.socialMedia.facebook}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center text-foreground/80 hover:text-[#1877F2] transition-colors"
-                    >
-                      <span className="i-lucide-facebook h-4 w-4 mr-2"></span>
-                      Facebook
-                    </a>
-                  )}
-                  
-                  {company.socialMedia.instagram && (
-                    <a
-                      href={company.socialMedia.instagram}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center text-foreground/80 hover:text-[#E4405F] transition-colors"
-                    >
-                      <span className="i-lucide-instagram h-4 w-4 mr-2"></span>
-                      Instagram
-                    </a>
-                  )}
-                </div>
+                <SocialMediaLinks 
+                  linkedin={company.socialMedia.linkedin}
+                  twitter={company.socialMedia.twitter}
+                  facebook={company.socialMedia.facebook}
+                  instagram={company.socialMedia.instagram}
+                  iconSize={16}
+                  showLabels={true}
+                  variant="colorful"
+                />
               </div>
             </>
           )}
