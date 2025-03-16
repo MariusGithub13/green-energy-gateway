@@ -80,14 +80,25 @@ const FeaturedCompany = ({ company }: FeaturedCompanyProps) => {
                 View complete profile <ArrowRight className="ml-1 h-4 w-4" />
               </Link>
               
-              <a
-                href={company.website}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground transition-colors"
-              >
-                Visit website <ExternalLink className="ml-1 h-3.5 w-3.5" />
-              </a>
+              {company.website && company.website !== "#" ? (
+                <a
+                  href={company.website}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground transition-colors"
+                  onClick={(e) => {
+                    if (!company.website || company.website === "#") {
+                      e.preventDefault();
+                    }
+                  }}
+                >
+                  Visit website <ExternalLink className="ml-1 h-3.5 w-3.5" />
+                </a>
+              ) : (
+                <span className="inline-flex items-center text-sm text-muted-foreground opacity-50">
+                  Visit website <ExternalLink className="ml-1 h-3.5 w-3.5" />
+                </span>
+              )}
             </div>
           </div>
         </div>

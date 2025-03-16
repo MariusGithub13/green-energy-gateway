@@ -82,14 +82,25 @@ const CompanyCard = ({ company }: CompanyCardProps) => {
             View details
           </Link>
           
-          <a
-            href={company.website}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground transition-colors"
-          >
-            Website <ExternalLink className="ml-1 h-3.5 w-3.5" />
-          </a>
+          {company.website && company.website !== "#" ? (
+            <a
+              href={company.website}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground transition-colors"
+              onClick={(e) => {
+                if (!company.website || company.website === "#") {
+                  e.preventDefault();
+                }
+              }}
+            >
+              Website <ExternalLink className="ml-1 h-3.5 w-3.5" />
+            </a>
+          ) : (
+            <span className="inline-flex items-center text-sm text-muted-foreground opacity-50">
+              Website <ExternalLink className="ml-1 h-3.5 w-3.5" />
+            </span>
+          )}
         </div>
       </div>
     </div>
