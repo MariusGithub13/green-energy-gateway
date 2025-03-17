@@ -33,7 +33,11 @@ const CompanyPage = () => {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2 space-y-8 animate-fade-up">
               <div className="overflow-hidden rounded-lg bg-white border border-border shadow-sm">
-                <CompanyLogo logo={company.logo} companyName={company.name} />
+                <CompanyLogo 
+                  logo={company.logo} 
+                  companyName={company.name} 
+                  website={company.website}
+                />
                 <CompanyDetails company={company} />
               </div>
             </div>

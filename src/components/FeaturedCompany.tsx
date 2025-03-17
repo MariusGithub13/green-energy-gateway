@@ -5,6 +5,7 @@ import { Company } from '@/lib/types';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
 import { getEnergyTypeColor } from '@/lib/companyData';
+import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 
 interface FeaturedCompanyProps {
   company: Company;
@@ -12,32 +13,66 @@ interface FeaturedCompanyProps {
 
 const FeaturedCompany = ({ company }: FeaturedCompanyProps) => {
   const [imageLoaded, setImageLoaded] = useState(false);
+  const [faviconLoaded, setFaviconLoaded] = useState(false);
 
   const handleImageLoad = () => {
     setImageLoaded(true);
   };
 
+  const handleFaviconLoad = () => {
+    setFaviconLoaded(true);
+  };
+
   // Validate website URL
   const hasValidWebsite = company.website && company.website !== "#";
+  
+  // Extract domain for favicon
+  let faviconUrl = '';
+  if (hasValidWebsite) {
+    try {
+      const domain = new URL(company.website).hostname;
+      faviconUrl = `https://www.google.com/s2/favicons?domain=${domain}&sz=64`;
+    } catch (e) {
+      console.warn(`Invalid URL for favicon: ${company.website}`);
+    }
+  }
 
   return (
     <div className="group rounded-xl overflow-hidden bg-gradient-to-br from-primary/5 to-primary/10 border border-primary/20 hover:border-primary/40 transition-all duration-300">
       <div className="grid md:grid-cols-3 gap-6">
         <div className="md:col-span-1 relative h-52 md:h-full overflow-hidden">
-          <img
-            src={company.logo || '/placeholder.svg'}
-            alt={`${company.name} logo`}
-            onLoad={handleImageLoad}
-            className={cn(
-              "w-1/2 h-1/2 mx-auto object-contain transition-all duration-500 lazyload-img p-4",
-              imageLoaded ? "loaded" : "",
-              !company.logo && "p-8 object-contain"
-            )}
-            onError={(e) => {
-              e.currentTarget.src = '/placeholder.svg';
-              e.currentTarget.classList.add('p-8', 'object-contain');
-            }}
-          />
+          {faviconUrl && !imageLoaded ? (
+            <div className="flex items-center justify-center h-full">
+              <Avatar className="w-20 h-20">
+                <AvatarImage 
+                  src={faviconUrl} 
+                  alt={`${company.name} favicon`}
+                  onLoad={handleFaviconLoad}
+                  className="object-contain"
+                />
+                <AvatarFallback>{company.name.charAt(0)}</AvatarFallback>
+              </Avatar>
+            </div>
+          ) : (
+            <img
+              src={company.logo || '/placeholder.svg'}
+              alt={`${company.name} logo`}
+              onLoad={handleImageLoad}
+              className={cn(
+                "w-1/3 h-1/3 mx-auto object-contain transition-all duration-500 lazyload-img p-4",
+                imageLoaded ? "loaded" : "",
+                !company.logo && "p-8 object-contain"
+              )}
+              onError={(e) => {
+                if (faviconUrl) {
+                  e.currentTarget.src = faviconUrl;
+                } else {
+                  e.currentTarget.src = '/placeholder.svg';
+                  e.currentTarget.classList.add('p-8', 'object-contain');
+                }
+              }}
+            />
+          )}
           <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
         </div>
         
