@@ -99,6 +99,9 @@ export const fetchCompanyData = async (): Promise<Company[]> => {
         websiteUrl = validateURL(row[5]);
       }
       
+      // Get country from column B (index 1)
+      const country = row[1] && row[1].trim() ? row[1].trim() : "Unknown";
+      
       // Create a company object
       return {
         id: String(index + 1),
@@ -107,7 +110,7 @@ export const fetchCompanyData = async (): Promise<Company[]> => {
         description: row[4] || "No description provided",
         energyTypes: energyTypes.length > 0 ? energyTypes : ["other"],
         location: row[0] || "Unknown",
-        country: row[1] || "Unknown",
+        country: country,
         region: row[0] || undefined,
         founded: undefined,
         logo: row[7] || undefined,

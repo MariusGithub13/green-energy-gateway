@@ -22,7 +22,9 @@ const CompanyDetails = ({ company }: CompanyDetailsProps) => {
               `border-${getEnergyTypeColor(type)}/40 bg-${getEnergyTypeColor(type)}/10 text-${getEnergyTypeColor(type)}`
             )}
           >
-            {type.charAt(0).toUpperCase() + type.slice(1)}
+            {type === "other" 
+              ? (company.country || "Other") 
+              : type.charAt(0).toUpperCase() + type.slice(1)}
           </Badge>
         ))}
       </div>
