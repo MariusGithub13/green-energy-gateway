@@ -93,15 +93,10 @@ export const fetchCompanyData = async (): Promise<Company[]> => {
         .map(type => type.trim().toLowerCase())
         .filter(type => ["solar", "wind", "hydro", "geothermal", "biomass", "other"].includes(type)) as EnergyType[];
       
-      // Get website - try first from the appropriate column (6), but fallback to column 1 if needed
-      // Column indices might vary, so we attempt to find the best match
-      let websiteUrl;
-      if (row[6] && row[6].trim()) {
-        websiteUrl = validateURL(row[6]);
-      } else if (row[1] && row[1].trim()) {
-        websiteUrl = validateURL(row[1]);
-      } else {
-        websiteUrl = '#';
+      // Get website URL specifically from column F (index 5)
+      let websiteUrl = '#';
+      if (row[5] && row[5].trim()) {
+        websiteUrl = validateURL(row[5]);
       }
       
       // Create a company object

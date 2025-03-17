@@ -26,7 +26,7 @@ const FeaturedCompany = ({ company }: FeaturedCompanyProps) => {
             alt={`${company.name} logo`}
             onLoad={handleImageLoad}
             className={cn(
-              "w-3/4 h-3/4 mx-auto object-contain transition-all duration-500 lazyload-img p-4",
+              "w-1/2 h-1/2 mx-auto object-contain transition-all duration-500 lazyload-img p-4",
               imageLoaded ? "loaded" : "",
               !company.logo && "p-8 object-contain"
             )}
