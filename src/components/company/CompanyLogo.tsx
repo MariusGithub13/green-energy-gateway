@@ -21,7 +21,7 @@ const CompanyLogo = ({ logo, companyName }: CompanyLogoProps) => {
         alt={`${companyName} logo`}
         onLoad={handleImageLoad}
         className={cn(
-          "w-full h-full object-contain p-8 transition-all duration-500 lazyload-img",
+          "w-3/4 h-3/4 object-contain p-4 mx-auto transition-all duration-500 lazyload-img",
           imageLoaded ? "loaded" : ""
         )}
         onError={(e) => {

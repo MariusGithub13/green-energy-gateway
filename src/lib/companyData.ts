@@ -28,14 +28,33 @@ const formatURL = (url: string): string => {
   return url;
 };
 
-// Updated to fetch from CSV URL and properly process data
+// Improved function to validate URLs
+const validateURL = (url: string): string => {
+  if (!url || url.trim() === '') return '#';
+  
+  try {
+    const formattedUrl = formatURL(url.trim());
+    new URL(formattedUrl); // This will throw if invalid
+    return formattedUrl;
+  } catch (e) {
+    console.warn(`Invalid URL: ${url}`);
+    return '#'; // Placeholder for invalid URLs
+  }
+};
+
+// Updated to fetch from CSV URL with improved data handling
 export const fetchCompanyData = async (): Promise<Company[]> => {
   try {
     const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTH5EqgU9fQ8dqF9THZdMpGa4HpCeBEBzQfbx2OPcj1tJgr3WoveJdaHzRWFrVngcW-S_XFexZiPgGW/pub?output=csv";
     
     console.log("Fetching data from CSV URL...");
     
-    const response = await fetch(CSV_URL);
+    const response = await fetch(CSV_URL, {
+      cache: 'no-store', // Ensure we get fresh data
+      headers: {
+        'Cache-Control': 'no-cache'
+      }
+    });
     
     if (!response.ok) {
       console.error("CSV fetch response error:", response.status, response.statusText);
@@ -50,6 +69,9 @@ export const fetchCompanyData = async (): Promise<Company[]> => {
     }
     
     const rows = parseCSV(csvText);
+    
+    // Log the headers to better understand the data structure
+    console.log("CSV Headers:", rows[0]);
     
     // Skip the header row
     const dataRows = rows.slice(1);
@@ -71,26 +93,22 @@ export const fetchCompanyData = async (): Promise<Company[]> => {
         .map(type => type.trim().toLowerCase())
         .filter(type => ["solar", "wind", "hydro", "geothermal", "biomass", "other"].includes(type)) as EnergyType[];
       
-      // Get the website URL and properly format it
-      let website = row[6] || "";
-      if (website && website.trim() !== "") {
-        try {
-          website = formatURL(website);
-          // Test if URL is valid
-          new URL(website);
-        } catch (e) {
-          console.warn(`Invalid URL in row ${index + 2}: ${website}`);
-          website = "#"; // Placeholder for invalid URLs
-        }
+      // Get website - try first from the appropriate column (6), but fallback to column 1 if needed
+      // Column indices might vary, so we attempt to find the best match
+      let websiteUrl;
+      if (row[6] && row[6].trim()) {
+        websiteUrl = validateURL(row[6]);
+      } else if (row[1] && row[1].trim()) {
+        websiteUrl = validateURL(row[1]);
       } else {
-        website = "#";
+        websiteUrl = '#';
       }
       
       // Create a company object
       return {
         id: String(index + 1),
         name: row[2] || `Company ${index + 1}`,
-        website: website,
+        website: websiteUrl,
         description: row[4] || "No description provided",
         energyTypes: energyTypes.length > 0 ? energyTypes : ["other"],
         location: row[0] || "Unknown",

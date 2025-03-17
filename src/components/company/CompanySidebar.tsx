@@ -11,6 +11,9 @@ interface CompanySidebarProps {
 }
 
 const CompanySidebar = ({ company }: CompanySidebarProps) => {
+  // Validate website URL
+  const hasValidWebsite = company.website && company.website !== "#";
+
   return (
     <div className="space-y-6 animate-fade-up" style={{ animationDelay: '100ms' }}>
       <div className="bg-white rounded-lg border border-border shadow-sm p-6">
@@ -45,7 +48,7 @@ const CompanySidebar = ({ company }: CompanySidebarProps) => {
             <h4 className="font-medium mb-3">Connect</h4>
             
             <div className="space-y-3">
-              {company.website && company.website !== "#" && (
+              {hasValidWebsite && (
                 <SocialMediaLinks 
                   website={company.website}
                   iconSize={16}

@@ -33,7 +33,7 @@ const CompanyCard = ({ company }: CompanyCardProps) => {
           alt={`${company.name} logo`}
           onLoad={handleImageLoad}
           className={cn(
-            "w-full h-full object-cover transition-all duration-500 lazyload-img",
+            "w-3/5 h-full mx-auto object-contain transition-all duration-500 lazyload-img p-3",
             imageLoaded ? "loaded" : "",
             !company.logo && "p-8 object-contain"
           )}
