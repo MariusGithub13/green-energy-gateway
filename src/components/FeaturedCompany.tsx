@@ -17,6 +17,9 @@ const FeaturedCompany = ({ company }: FeaturedCompanyProps) => {
     setImageLoaded(true);
   };
 
+  // Validate website URL
+  const hasValidWebsite = company.website && company.website !== "#";
+
   return (
     <div className="group rounded-xl overflow-hidden bg-gradient-to-br from-primary/5 to-primary/10 border border-primary/20 hover:border-primary/40 transition-all duration-300">
       <div className="grid md:grid-cols-3 gap-6">
@@ -80,17 +83,12 @@ const FeaturedCompany = ({ company }: FeaturedCompanyProps) => {
                 View complete profile <ArrowRight className="ml-1 h-4 w-4" />
               </Link>
               
-              {company.website && company.website !== "#" ? (
+              {hasValidWebsite ? (
                 <a
                   href={company.website}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground transition-colors"
-                  onClick={(e) => {
-                    if (!company.website || company.website === "#") {
-                      e.preventDefault();
-                    }
-                  }}
                 >
                   Visit website <ExternalLink className="ml-1 h-3.5 w-3.5" />
                 </a>

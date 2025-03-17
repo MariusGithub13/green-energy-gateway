@@ -17,6 +17,9 @@ const CompanyCard = ({ company }: CompanyCardProps) => {
     setImageLoaded(true);
   };
 
+  // Validate website URL
+  const hasValidWebsite = company.website && company.website !== "#";
+
   return (
     <div className="group animate-in relative rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg bg-white border border-border hover:border-primary/20">
       <div className="absolute top-2 right-2 z-10">
@@ -82,17 +85,12 @@ const CompanyCard = ({ company }: CompanyCardProps) => {
             View details
           </Link>
           
-          {company.website && company.website !== "#" ? (
+          {hasValidWebsite ? (
             <a
               href={company.website}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground transition-colors"
-              onClick={(e) => {
-                if (!company.website || company.website === "#") {
-                  e.preventDefault();
-                }
-              }}
             >
               Website <ExternalLink className="ml-1 h-3.5 w-3.5" />
             </a>
