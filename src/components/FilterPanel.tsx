@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils';
 import { FilterOptions as FilterOptionsType, EnergyType } from '@/lib/types';
 import SearchBar from './filter/SearchBar';
 import ActiveFilters from './filter/ActiveFilters';
-import FilterOptionsPanel from './filter/FilterOptions';
+import FilterOptionsPanel from './filter/FilterOptionsPanel';
 
 interface FilterPanelProps {
   countries: string[];
