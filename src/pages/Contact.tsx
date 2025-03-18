@@ -34,8 +34,8 @@ const Contact = () => {
                     <Mail className="h-5 w-5 text-primary mt-0.5 mr-3" />
                     <div>
                       <p className="font-medium">Email</p>
-                      <a href="mailto:contact@renewabledirectory.com" className="text-muted-foreground hover:text-primary transition-colors">
-                        contact@renewabledirectory.com
+                      <a href="mailto:office@devaland.com" className="text-muted-foreground hover:text-primary transition-colors">
+                        office@devaland.com
                       </a>
                     </div>
                   </div>
@@ -44,8 +44,8 @@ const Contact = () => {
                     <Phone className="h-5 w-5 text-primary mt-0.5 mr-3" />
                     <div>
                       <p className="font-medium">Phone</p>
-                      <a href="tel:+18005551234" className="text-muted-foreground hover:text-primary transition-colors">
-                        +1 (800) 555-1234
+                      <a href="tel: +40721269312" className="text-muted-foreground hover:text-primary transition-colors">
+                        +40 (721) 269 312
                       </a>
                     </div>
                   </div>
@@ -55,9 +55,10 @@ const Contact = () => {
                     <div>
                       <p className="font-medium">Address</p>
                       <address className="text-muted-foreground not-italic">
-                        123 Renewable Way<br />
-                        Green City, EC 98765<br />
-                        United States
+                        DEVALAND MARKETING S.R.L.<br />
+                        Trading as Devaland Automation Agency<br />
+                        Sântandrei 13, Simeria 335903,<br />
+                        Hunedoara County, Transylvania, ROMANIA
                       </address>
                     </div>
                   </div>
@@ -104,7 +105,7 @@ const Contact = () => {
                 <h3 className="text-lg font-medium mb-2">Is there a fee to be listed in the directory?</h3>
                 <p className="text-muted-foreground">
                   Basic listings are free of charge. Premium listings with enhanced features and 
-                  visibility are available for a monthly subscription fee.
+                  Featured visibility are available for a monthly subscription fee.
                 </p>
               </div>
               <div>
