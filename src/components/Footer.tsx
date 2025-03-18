@@ -83,9 +83,25 @@ const Footer = () => {
         </div>
         
         <div className="flex flex-col md:flex-row justify-between items-center border-t border-border/60 mt-10 pt-6">
-          <p className="text-sm text-muted-foreground">
-            © {currentYear} Renewable Energy Directory. All rights reserved.
-          </p>
+          <div className="flex flex-col md:flex-row items-center gap-4">
+            <p className="text-sm text-muted-foreground">
+              © {currentYear} Renewable Energy Directory. All rights reserved.
+            </p>
+            <div className="flex items-center gap-4">
+              <Link 
+                to="/privacy" 
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Privacy Policy
+              </Link>
+              <Link 
+                to="/terms" 
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Terms of Service
+              </Link>
+            </div>
+          </div>
           
           <div className="flex items-center space-x-4 mt-4 md:mt-0">
             <a 
