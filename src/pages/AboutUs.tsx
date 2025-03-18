@@ -125,8 +125,7 @@ const AboutUs = () => {
                 <p className="text-sm text-muted-foreground mb-3">Founder & CEO</p>
                 <p className="text-sm text-muted-foreground">
                   The Digital Vampire from Transylvania. Passionate renewable energy consultant with over 15 years of experience in the industry. 
-                  Founder of <a target="_blank" rel="noopener" href="https://www.devaland.com/">Devaland Automation Agency</a> 
-                  and <a target="_blank" rel="noopener" href="https://klavipro.com/">KlaviPro, Klaviyo Agency Partner</a>
+                  Founder of <a target="_blank" rel="noopener" href="https://www.devaland.com/">Devaland Automation Agency</a> and <a target="_blank" rel="noopener" href="https://klavipro.com/">KlaviPro, Klaviyo Agency Partner</a>
                 </p>
               </div>
               <div className="bg-card rounded-lg p-6 shadow-sm border border-border text-center">
