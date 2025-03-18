@@ -100,6 +100,12 @@ const Footer = () => {
               >
                 Terms of Service
               </Link>
+              <Link 
+                to="/sitemap" 
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Sitemap
+              </Link>
             </div>
           </div>
           
