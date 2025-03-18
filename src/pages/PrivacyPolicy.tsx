@@ -1,4 +1,3 @@
-
 import { Helmet } from "react-helmet";
 import { Shield } from "lucide-react";
 import Header from "@/components/Header";
@@ -31,7 +30,7 @@ const PrivacyPolicy = () => {
           <div className="prose prose-slate max-w-none">
             <h2>1. Introduction</h2>
             <p>
-              At Renewable Energy Directory ("we," "us," or "our"), we respect your privacy and are committed to protecting your personal data. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website or use our services.
+              At Renewable Energy Directory ("we," "us," or "our"), accessible at https://renewableenergy-directory.com/, we respect your privacy and are committed to protecting your personal data. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website or use our services.
             </p>
             
             <h2>2. Information We Collect</h2>
@@ -110,7 +109,8 @@ const PrivacyPolicy = () => {
               If you have any questions about this Privacy Policy or our data practices, please contact us at:
             </p>
             <p>
-              Email: <a href="mailto:privacy@renewabledirectory.com" className="text-primary hover:underline">privacy@renewabledirectory.com</a><br />
+              Website: <a href="https://renewableenergy-directory.com" className="text-primary hover:underline">https://renewableenergy-directory.com</a><br />
+              Email: <a href="mailto:privacy@renewableenergy-directory.com" className="text-primary hover:underline">privacy@renewableenergy-directory.com</a><br />
               Address: 123 Renewable Way, Green City, EC 98765, United States
             </p>
           </div>
