@@ -121,18 +121,19 @@ const AboutUs = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               <div className="bg-card rounded-lg p-6 shadow-sm border border-border text-center">
                 <div className="w-24 h-24 rounded-full bg-muted mx-auto mb-4"></div>
-                <h3 className="text-lg font-semibold mb-1">Alex Rivera</h3>
+                <h3 className="text-lg font-semibold mb-1">Marius Andronie</h3>
                 <p className="text-sm text-muted-foreground mb-3">Founder & CEO</p>
                 <p className="text-sm text-muted-foreground">
-                  Former renewable energy consultant with over 15 years of experience in the industry.
+                  The Digital Vampire from Transylvania. Passionate renewable energy consultant with over 15 years of experience in the industry. 
+                  Founder of Devaland Automation Agency at www.devaland.com.
                 </p>
               </div>
               <div className="bg-card rounded-lg p-6 shadow-sm border border-border text-center">
                 <div className="w-24 h-24 rounded-full bg-muted mx-auto mb-4"></div>
-                <h3 className="text-lg font-semibold mb-1">Jamie Chen</h3>
+                <h3 className="text-lg font-semibold mb-1">Sera</h3>
                 <p className="text-sm text-muted-foreground mb-3">Chief Technology Officer</p>
                 <p className="text-sm text-muted-foreground">
-                  Software engineer and clean tech advocate focused on using technology to accelerate sustainability.
+                  Software engineer and clean tech advocate focused on using automation and technology to accelerate sustainability.
                 </p>
               </div>
               <div className="bg-card rounded-lg p-6 shadow-sm border border-border text-center">
