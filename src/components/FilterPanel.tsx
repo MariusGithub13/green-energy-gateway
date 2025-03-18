@@ -1,19 +1,18 @@
-
 import { useState } from 'react';
 import { Filter, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { FilterOptions, EnergyType } from '@/lib/types';
+import { FilterOptions as FilterOptionsType, EnergyType } from '@/lib/types';
 import SearchBar from './filter/SearchBar';
 import ActiveFilters from './filter/ActiveFilters';
-import FilterOptions from './filter/FilterOptions';
+import FilterOptionsPanel from './filter/FilterOptions';
 
 interface FilterPanelProps {
   countries: string[];
   regions: string[];
   energyTypes: EnergyType[];
-  filters: FilterOptions;
-  onFilterChange: (filters: FilterOptions) => void;
+  filters: FilterOptionsType;
+  onFilterChange: (filters: FilterOptionsType) => void;
   onReset: () => void;
 }
 
@@ -122,7 +121,7 @@ const FilterPanel = ({
         />
 
         {isExpanded && (
-          <FilterOptions
+          <FilterOptionsPanel
             energyTypes={energyTypes}
             selectedEnergyTypes={filters.energyTypes}
             countries={countries}
