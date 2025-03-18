@@ -39,11 +39,14 @@ const CompanyCard = ({ company }: CompanyCardProps) => {
   return (
     <div className="group animate-in relative rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg bg-white border border-border hover:border-primary/20">
       <div className="absolute top-2 right-2 z-10">
-        {company.featured && (
-          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary text-primary-foreground">
-            Featured
-          </span>
-        )}
+        <span className={cn(
+          "inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium",
+          company.featured 
+            ? "bg-primary text-primary-foreground" 
+            : "bg-muted text-muted-foreground"
+        )}>
+          {company.featured ? 'Featured' : 'Free Listing'}
+        </span>
       </div>
       
       <div className="relative h-40 overflow-hidden bg-muted">
