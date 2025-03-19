@@ -171,8 +171,9 @@ export const fetchCompanyData = async (): Promise<Company[]> => {
     
     // Log any URLs that were sanitized or blocked
     let sanitizedCount = 0;
-    companies.forEach(company => {
-      if (company.website === '#' && row[5] && row[5].trim()) {
+    companies.forEach((company, index) => {
+      const originalRow = dataRows[parseInt(company.id) - 1];
+      if (company.website === '#' && originalRow[5] && originalRow[5].trim()) {
         sanitizedCount++;
         console.warn(`Blocked potentially unsafe URL for company: ${company.name}`);
       }
