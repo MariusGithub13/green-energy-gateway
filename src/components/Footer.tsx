@@ -1,5 +1,5 @@
 
-import { Leaf, Mail, ExternalLink } from 'lucide-react';
+import { Leaf } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const Footer = () => {
@@ -107,26 +107,6 @@ const Footer = () => {
                 Sitemap
               </Link>
             </div>
-          </div>
-          
-          <div className="flex items-center space-x-4 mt-4 md:mt-0">
-            <a 
-              href="mailto:contact@renewableenergy-directory.com"
-              className="text-sm text-muted-foreground hover:text-foreground flex items-center transition-colors"
-            >
-              <Mail className="h-4 w-4 mr-1" />
-              <span>Contact</span>
-            </a>
-            
-            <a
-              href="https://renewableenergy-directory.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-sm text-muted-foreground hover:text-foreground flex items-center transition-colors"
-            >
-              <span>Original Site</span>
-              <ExternalLink className="h-3.5 w-3.5 ml-1" />
-            </a>
           </div>
         </div>
       </div>
