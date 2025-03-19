@@ -4,6 +4,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Separator } from "@/components/ui/separator";
 import { Link } from "react-router-dom";
+import { ExternalLink } from "lucide-react";
 
 const Sitemap = () => {
   return (
@@ -21,6 +22,21 @@ const Sitemap = () => {
           <p className="text-lg text-muted-foreground mb-10">
             Find your way around the Renewable Energy Directory with our comprehensive sitemap.
           </p>
+          
+          <div className="bg-primary/10 p-4 rounded-md mb-8">
+            <p className="flex items-center gap-2">
+              <ExternalLink className="h-5 w-5" />
+              <span>XML Sitemap for search engines: </span>
+              <a 
+                href="/sitemap.xml" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-primary hover:underline font-medium"
+              >
+                sitemap.xml
+              </a>
+            </p>
+          </div>
           
           <Separator className="my-8" />
           
