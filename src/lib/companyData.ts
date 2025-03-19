@@ -1,3 +1,4 @@
+
 import { Company, FilterOptions, EnergyType } from "./types";
 import { mockCompanies } from "./mockData";
 import { getEnergyTypeColor } from "./energyUtils";
@@ -23,12 +24,63 @@ const formatURL = (url: string): string => {
   return url;
 };
 
+const isSecureURL = (url: string): boolean => {
+  if (!url || url.trim() === '') return false;
+  
+  // Only allow http:// or https:// URLs
+  if (!url.match(/^https?:\/\//i)) return false;
+  
+  // Block potentially dangerous protocols
+  const dangerousProtocols = [
+    'javascript:', 'data:', 'vbscript:', 
+    'file:', 'ftp:', 'ws:', 'wss:',
+    'about:', 'blob:', 'magnet:'
+  ];
+  
+  for (const protocol of dangerousProtocols) {
+    if (url.toLowerCase().includes(protocol)) return false;
+  }
+  
+  // Block URLs with suspicious keywords
+  const suspiciousKeywords = [
+    'malware', 'virus', 'trojan', 'phishing', 
+    'hack', 'crack', 'keygen', 'warez', 'pirate',
+    'torrent', 'exploit', 'payload', 'attack'
+  ];
+  
+  for (const keyword of suspiciousKeywords) {
+    if (url.toLowerCase().includes(keyword)) return false;
+  }
+  
+  // Block URLs with executable file extensions
+  const dangerousExtensions = [
+    '.exe', '.bat', '.cmd', '.msi', '.vbs', 
+    '.js', '.jar', '.dll', '.sh', '.app', 
+    '.dmg', '.apk', '.deb', '.rpm'
+  ];
+  
+  for (const ext of dangerousExtensions) {
+    if (url.toLowerCase().endsWith(ext)) return false;
+  }
+  
+  return true;
+};
+
 const validateURL = (url: string): string => {
   if (!url || url.trim() === '') return '#';
   
   try {
     const formattedUrl = formatURL(url.trim());
+    
+    // Check if URL is valid
     new URL(formattedUrl);
+    
+    // Verify URL is secure
+    if (!isSecureURL(formattedUrl)) {
+      console.warn(`Potentially unsafe URL blocked: ${url}`);
+      return '#';
+    }
+    
     return formattedUrl;
   } catch (e) {
     console.warn(`Invalid URL: ${url}`);
@@ -116,6 +168,20 @@ export const fetchCompanyData = async (): Promise<Company[]> => {
         tags: row[9] ? row[9].split(";").map((t: string) => t.trim()) : undefined,
       };
     }).filter(Boolean) as Company[];
+    
+    // Log any URLs that were sanitized or blocked
+    let sanitizedCount = 0;
+    companies.forEach(company => {
+      if (company.website === '#' && row[5] && row[5].trim()) {
+        sanitizedCount++;
+        console.warn(`Blocked potentially unsafe URL for company: ${company.name}`);
+      }
+    });
+    
+    if (sanitizedCount > 0) {
+      console.warn(`Blocked ${sanitizedCount} potentially unsafe URLs`);
+      toast.warning(`${sanitizedCount} potentially unsafe URLs were blocked for security reasons.`);
+    }
     
     return companies;
     
