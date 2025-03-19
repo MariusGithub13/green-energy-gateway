@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -70,6 +69,10 @@ export default {
 					geo: '#E87461',
 					bio: '#8BC34A',
 					DEFAULT: '#36AD72',
+				},
+				url: {
+					DEFAULT: 'hsl(var(--url-color))',
+					visited: 'hsl(var(--url-visited-color))',
 				}
 			},
 			borderRadius: {

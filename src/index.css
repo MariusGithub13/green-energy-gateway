@@ -34,6 +34,10 @@
     --ring: 160 55% 45%;
 
     --radius: 0.5rem;
+    
+    /* URL colors */
+    --url-color: 195 100% 47%;
+    --url-visited-color: 223 65% 55%;
   }
 
   * {
@@ -43,6 +47,16 @@
   body {
     @apply bg-background text-foreground antialiased;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  /* URL styling - underlined and blue */
+  a[href]:not(.btn, .no-underline, [class*="bg-"], [class*="button"]):not([class*="rounded"]) {
+    @apply text-[hsl(var(--url-color))] underline decoration-[hsl(var(--url-color))] underline-offset-2 transition-colors;
+  }
+  
+  /* Visited URL styling - different blue */
+  a[href]:not(.btn, .no-underline, [class*="bg-"], [class*="button"]):not([class*="rounded"]):visited {
+    @apply text-[hsl(var(--url-visited-color))] decoration-[hsl(var(--url-visited-color))];
   }
 
   /* Disable blue highlight on mobile tap */
