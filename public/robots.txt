@@ -1,4 +1,5 @@
 User-agent: Googlebot
+User-agent: *
 Disallow: /.well-known/
 
 User-agent: *
@@ -14,3 +15,6 @@ Disallow: /*.bmp$
 Disallow: /*.svg$
 Disallow: /*.webp$
 Disallow: /*.ico$
+
+
+Sitemap: https://renewableenergy-directory.com/sitemap.xml
