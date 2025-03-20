@@ -110,7 +110,7 @@ const PrivacyPolicy = () => {
             </p>
             <p>
               Website: <a href="https://renewableenergy-directory.com" className="text-primary hover:underline">https://renewableenergy-directory.com</a><br />
-              Email: <a href="mailto:privacy@renewableenergy-directory.com" className="text-primary hover:underline">privacy@renewableenergy-directory.com</a><br />
+              Email: <a href="mailto:office@devaland.com" className="text-primary hover:underline">office@devaland.com</a><br />
               Address: 123 Renewable Way, Green City, EC 98765, United States
             </p>
           </div>
