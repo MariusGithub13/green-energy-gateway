@@ -97,12 +97,12 @@ const TermsOfService = () => {
             
             <h2>10. Governing Law</h2>
             <p>
-              These Terms shall be governed by and construed in accordance with the laws of the United States, without regard to its conflict of law provisions.
+              These Terms shall be governed by and construed in accordance with the laws of Romania, without regard to its conflict of law provisions.
             </p>
             
             <h2>11. Contact Information</h2>
             <p>
-              If you have any questions about these Terms, please contact us at <a href="mailto:legal@renewabledirectory.com" className="text-primary hover:underline">legal@renewabledirectory.com</a>.
+              If you have any questions about these Terms, please contact us at <a href="mailto:office@devaland.com" className="text-primary hover:underline">office@devaland.com</a>.
             </p>
           </div>
         </div>
