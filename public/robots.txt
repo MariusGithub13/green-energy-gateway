@@ -13,4 +13,3 @@ Disallow: /*.bmp$
 Disallow: /*.svg$
 Disallow: /*.webp$
 Disallow: /*.ico$
-Disallow: /cgi-bin/
