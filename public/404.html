@@ -7,25 +7,33 @@
   <title>Renewable Energy Directory</title>
   <meta name="description" content="The comprehensive directory of renewable energy companies worldwide">
   <script>
-    // Single Page Apps for GitHub Pages
-    // MIT License
-    // https://github.com/rafgraph/spa-github-pages
-    (function(l) {
-      if (l.search[1] === '/' ) {
-        var decoded = l.search.slice(1).split('&').map(function(s) { 
-          return s.replace(/~and~/g, '&')
-        }).join('?');
-        window.history.replaceState(null, null,
-            l.pathname.slice(0, -1) + decoded + l.hash
-        );
-      }
-    }(window.location))
+    // Redirect to the home page with hash routing
+    var segmentCount = 0;
+    var location = window.location;
+    var pathname = location.pathname;
+    var redirect = pathname.split('/').slice(0, 1 + segmentCount).join('/') + '/?p=/';
+    
+    // Add path components after the base segment
+    if (pathname.length > redirect.length - 2) {
+      redirect += pathname.slice(redirect.length - 2);
+    }
+    
+    // Add query string if present
+    if (location.search) {
+      redirect += location.search;
+    }
+    
+    // Add hash if present
+    if (location.hash) {
+      redirect += location.hash;
+    }
+    
+    sessionStorage.redirect = redirect;
+    window.location.href = '/';
   </script>
 </head>
 <body>
-  <script>
-    // Redirect to the main page with hash routing
-    window.location.href = '/#' + window.location.pathname;
-  </script>
+  <h1>Redirecting...</h1>
+  <p>If you are not redirected automatically, <a href="/">click here</a>.</p>
 </body>
 </html>

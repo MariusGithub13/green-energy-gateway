@@ -13,6 +13,16 @@
     <meta property="og:url" content="https://renewableenergy-directory.com" />
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="canonical" href="https://renewableenergy-directory.com" />
+    <script>
+      // Redirect handling for GitHub Pages with custom domain
+      (function() {
+        var redirect = sessionStorage.redirect;
+        delete sessionStorage.redirect;
+        if (redirect && redirect !== location.href) {
+          history.replaceState(null, null, redirect);
+        }
+      })();
+    </script>
   </head>
 
   <body>
