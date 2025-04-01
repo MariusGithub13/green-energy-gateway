@@ -12,6 +12,7 @@ const Sitemap = () => {
       <Helmet>
         <title>Sitemap | Renewable Energy Directory</title>
         <meta name="description" content="Navigate through all pages of the Renewable Energy Directory." />
+        <link rel="canonical" href="https://renewableenergy-directory.com/#/sitemap" />
       </Helmet>
       
       <Header />
