@@ -12,6 +12,7 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import AboutUs from "./pages/AboutUs";
 import Company from "./pages/Company";
 import Sitemap from "./pages/Sitemap";
+import "./App.css";
 
 const queryClient = new QueryClient();
 
