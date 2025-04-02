@@ -1,4 +1,3 @@
-
 import { Helmet } from "react-helmet";
 import { Shield } from "lucide-react";
 import Header from "@/components/Header";
@@ -29,7 +28,7 @@ const PrivacyPolicy = () => {
           
           <Separator className="my-6" />
           
-          <div className="prose prose-slate max-w-none">
+          <div className="prose prose-slate max-w-none text-left">
             <h2>1. Introduction</h2>
             <p>
               At Renewable Energy Directory ("we," "us," or "our"), accessible at https://renewableenergy-directory.com/, we respect your privacy and are committed to protecting your personal data. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website or use our services.

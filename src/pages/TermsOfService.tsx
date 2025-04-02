@@ -1,4 +1,3 @@
-
 import { Helmet } from "react-helmet";
 import { ScrollText } from "lucide-react";
 import Header from "@/components/Header";
@@ -28,7 +27,7 @@ const TermsOfService = () => {
           
           <Separator className="my-6" />
           
-          <div className="prose prose-slate max-w-none">
+          <div className="prose prose-slate max-w-none text-left">
             <h2>1. Acceptance of Terms</h2>
             <p>
               By accessing or using the Renewable Energy Directory ("Directory"), you agree to be bound by these Terms of Service ("Terms"). If you do not agree to these Terms, please do not use the Directory.
