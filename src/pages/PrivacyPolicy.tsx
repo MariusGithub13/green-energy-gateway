@@ -113,7 +113,7 @@ const PrivacyPolicy = () => {
             <p>
               Website: <a href="https://renewableenergy-directory.com" className="text-primary hover:underline">https://renewableenergy-directory.com</a><br />
               Email: <a href="mailto:office@devaland.com" className="text-primary hover:underline">office@devaland.com</a><br />
-              Address: 123 Renewable Way, Green City, EC 98765, United States
+              Address: Sântandrei 13, Simeria 335903, Hunedoara County, Transylvania, ROMANIA
             </p>
           </div>
         </div>
