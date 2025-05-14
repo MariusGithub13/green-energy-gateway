@@ -6,7 +6,8 @@ import Footer from "@/components/Footer";
 import { Separator } from "@/components/ui/separator";
 import { Link } from "react-router-dom";
 import { ExternalLink } from "lucide-react";
-import { fetchCompanyData, generateSlug } from "@/lib/companyData";
+import { fetchCompanyData } from "@/lib/companyData";
+import { generateSlug } from "@/lib/slugUtils";
 import { Company } from "@/lib/types";
 import { useGenerateSitemap } from "@/hooks/useGenerateSitemap";
 

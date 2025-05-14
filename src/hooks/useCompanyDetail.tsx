@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Company } from '@/lib/types';
 import { fetchCompanyData, getCompanyById, getCompanyBySlug } from '@/lib/companyData';
+import { generateSlug } from '@/lib/slugUtils';
 import { useToast } from '@/hooks/use-toast';
 
 export const useCompanyDetail = (id?: string, slug?: string) => {
@@ -59,14 +60,4 @@ export const useCompanyDetail = (id?: string, slug?: string) => {
   }, [id, slug, navigate, toast]);
 
   return { company, isLoading };
-};
-
-// Helper function to generate slug from company name
-const generateSlug = (name: string): string => {
-  return name
-    .toLowerCase()
-    .replace(/[^\w\s-]/g, '') // Remove special characters
-    .replace(/\s+/g, '-') // Replace spaces with hyphens
-    .replace(/-+/g, '-') // Remove consecutive hyphens
-    .trim(); // Trim leading/trailing spaces or hyphens
 };

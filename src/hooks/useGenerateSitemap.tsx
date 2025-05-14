@@ -1,7 +1,7 @@
 
 import { useEffect } from 'react';
 import { Company } from '@/lib/types';
-import { generateSlug } from '@/lib/companyData';
+import { generateSlug } from '@/lib/slugUtils';
 
 export const useGenerateSitemap = (companies: Company[]) => {
   useEffect(() => {

@@ -4,7 +4,8 @@ import { ExternalLink, MapPin } from 'lucide-react';
 import { Company, EnergyType } from '@/lib/types';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
-import { getEnergyTypeColor, generateSlug } from '@/lib/companyData';
+import { getEnergyTypeColor } from '@/lib/energyUtils';
+import { generateSlug } from '@/lib/slugUtils';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 
 interface CompanyCardProps {
