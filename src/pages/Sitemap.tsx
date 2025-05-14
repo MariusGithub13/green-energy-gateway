@@ -1,18 +1,40 @@
 
+import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Separator } from "@/components/ui/separator";
 import { Link } from "react-router-dom";
 import { ExternalLink } from "lucide-react";
+import { fetchCompanyData, generateSlug } from "@/lib/companyData";
+import { Company } from "@/lib/types";
+import { useGenerateSitemap } from "@/hooks/useGenerateSitemap";
 
 const Sitemap = () => {
+  const [companies, setCompanies] = useState<Company[]>([]);
+  
+  useEffect(() => {
+    const loadCompanies = async () => {
+      try {
+        const data = await fetchCompanyData();
+        setCompanies(data);
+      } catch (error) {
+        console.error("Error loading company data for sitemap:", error);
+      }
+    };
+    
+    loadCompanies();
+  }, []);
+  
+  // Use our hook to generate the dynamic sitemap
+  useGenerateSitemap(companies);
+  
   return (
     <>
       <Helmet>
         <title>Sitemap | Renewable Energy Directory</title>
         <meta name="description" content="Navigate through all pages of the Renewable Energy Directory." />
-        <link rel="canonical" href="https://renewableenergy-directory.com/#/sitemap" />
+        <link rel="canonical" href="https://renewableenergy-directory.com/sitemap" />
       </Helmet>
       
       <Header />
@@ -116,6 +138,27 @@ const Sitemap = () => {
               </li>
             </ul>
           </div>
+          
+          {companies.length > 0 && (
+            <>
+              <Separator className="my-8" />
+              
+              <div>
+                <h2 className="text-2xl font-semibold mb-6">Company Profiles</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {companies.map(company => (
+                    <Link 
+                      key={company.id}
+                      to={`/${generateSlug(company.name)}`}
+                      className="text-primary hover:underline text-sm"
+                    >
+                      {company.name}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            </>
+          )}
         </div>
       </main>
       

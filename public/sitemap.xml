@@ -1,39 +1,41 @@
+
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://renewableenergy-directory.com/</loc>
-    <lastmod>2023-09-01</lastmod>
+    <lastmod>2025-05-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://renewableenergy-directory.com/#/about</loc>
-    <lastmod>2023-09-01</lastmod>
+    <loc>https://renewableenergy-directory.com/about</loc>
+    <lastmod>2025-05-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://renewableenergy-directory.com/#/contact</loc>
-    <lastmod>2023-09-01</lastmod>
+    <loc>https://renewableenergy-directory.com/contact</loc>
+    <lastmod>2025-05-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://renewableenergy-directory.com/#/terms</loc>
-    <lastmod>2023-09-01</lastmod>
+    <loc>https://renewableenergy-directory.com/terms</loc>
+    <lastmod>2025-05-14</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://renewableenergy-directory.com/#/privacy</loc>
-    <lastmod>2023-09-01</lastmod>
+    <loc>https://renewableenergy-directory.com/privacy</loc>
+    <lastmod>2025-05-14</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://renewableenergy-directory.com/#/sitemap</loc>
-    <lastmod>2023-09-01</lastmod>
+    <loc>https://renewableenergy-directory.com/sitemap</loc>
+    <lastmod>2025-05-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
+  <!-- Dynamic company URLs will be added by the sitemap generator hook -->
 </urlset>
