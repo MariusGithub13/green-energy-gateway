@@ -11,8 +11,8 @@ import CompanyLoading from '@/components/company/CompanyLoading';
 import CompanyNotFound from '@/components/company/CompanyNotFound';
 
 const CompanyPage = () => {
-  const { id } = useParams<{ id: string }>();
-  const { company, isLoading } = useCompanyDetail(id);
+  const { id, slug } = useParams<{ id?: string; slug?: string }>();
+  const { company, isLoading } = useCompanyDetail(id, slug);
 
   if (isLoading) {
     return <CompanyLoading />;

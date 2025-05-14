@@ -2,10 +2,10 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Company } from '@/lib/types';
-import { fetchCompanyData, getCompanyById } from '@/lib/companyData';
+import { fetchCompanyData, getCompanyById, getCompanyBySlug } from '@/lib/companyData';
 import { useToast } from '@/hooks/use-toast';
 
-export const useCompanyDetail = (id: string | undefined) => {
+export const useCompanyDetail = (id?: string, slug?: string) => {
   const [company, setCompany] = useState<Company | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
@@ -16,14 +16,25 @@ export const useCompanyDetail = (id: string | undefined) => {
       setIsLoading(true);
       try {
         const allCompanies = await fetchCompanyData();
-        if (!id) {
-          throw new Error('Company ID not provided');
-        }
         
-        const foundCompany = getCompanyById(allCompanies, id);
+        let foundCompany: Company | undefined;
+        
+        if (slug) {
+          foundCompany = getCompanyBySlug(allCompanies, slug);
+        } else if (id) {
+          foundCompany = getCompanyById(allCompanies, id);
+        } else {
+          throw new Error('Neither Company ID nor slug provided');
+        }
         
         if (foundCompany) {
           setCompany(foundCompany);
+          
+          // If user accessed by ID but we have a slug, redirect to slug URL for SEO
+          if (id && !slug) {
+            const companySlug = generateSlug(foundCompany.name);
+            navigate(`/${companySlug}`, { replace: true });
+          }
         } else {
           toast({
             title: "Company not found",
@@ -45,7 +56,17 @@ export const useCompanyDetail = (id: string | undefined) => {
     };
     
     loadCompany();
-  }, [id, navigate, toast]);
+  }, [id, slug, navigate, toast]);
 
   return { company, isLoading };
+};
+
+// Helper function to generate slug from company name
+const generateSlug = (name: string): string => {
+  return name
+    .toLowerCase()
+    .replace(/[^\w\s-]/g, '') // Remove special characters
+    .replace(/\s+/g, '-') // Replace spaces with hyphens
+    .replace(/-+/g, '-') // Remove consecutive hyphens
+    .trim(); // Trim leading/trailing spaces or hyphens
 };

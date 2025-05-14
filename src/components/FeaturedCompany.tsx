@@ -4,7 +4,7 @@ import { ArrowRight, ExternalLink, MapPin } from 'lucide-react';
 import { Company } from '@/lib/types';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
-import { getEnergyTypeColor } from '@/lib/companyData';
+import { getEnergyTypeColor, generateSlug } from '@/lib/companyData';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 
 interface FeaturedCompanyProps {
@@ -36,6 +36,9 @@ const FeaturedCompany = ({ company }: FeaturedCompanyProps) => {
       console.warn(`Invalid URL for favicon: ${company.website}`);
     }
   }
+  
+  // Generate company slug for URL
+  const companySlug = generateSlug(company.name);
 
   return (
     <div className="group rounded-xl overflow-hidden bg-gradient-to-br from-primary/5 to-primary/10 border border-primary/20 hover:border-primary/40 transition-all duration-300">
@@ -112,7 +115,7 @@ const FeaturedCompany = ({ company }: FeaturedCompanyProps) => {
             
             <div className="mt-auto pt-4 flex items-center justify-between gap-4">
               <Link
-                to={`/company/${company.id}`}
+                to={`/${companySlug}`}
                 className="inline-flex items-center font-medium text-primary hover:underline transition-all duration-200"
               >
                 View complete profile <ArrowRight className="ml-1 h-4 w-4" />

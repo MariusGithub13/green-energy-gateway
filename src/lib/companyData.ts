@@ -10,6 +10,19 @@ export const getCompanyById = (companies: Company[], id: string): Company | unde
   return companies.find(company => company.id === id);
 };
 
+export const getCompanyBySlug = (companies: Company[], slug: string): Company | undefined => {
+  return companies.find(company => generateSlug(company.name) === slug);
+};
+
+export const generateSlug = (name: string): string => {
+  return name
+    .toLowerCase()
+    .replace(/[^\w\s-]/g, '') // Remove special characters
+    .replace(/\s+/g, '-') // Replace spaces with hyphens
+    .replace(/-+/g, '-') // Remove consecutive hyphens
+    .trim(); // Trim leading/trailing spaces or hyphens
+};
+
 export const getFeaturedCompanies = (companies: Company[]): Company[] => {
   return companies.filter(company => company.featured).sort((a, b) => a.name.localeCompare(b.name));
 };

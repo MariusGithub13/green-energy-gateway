@@ -1,9 +1,10 @@
+
 import { Link } from 'react-router-dom';
 import { ExternalLink, MapPin } from 'lucide-react';
 import { Company, EnergyType } from '@/lib/types';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
-import { getEnergyTypeColor } from '@/lib/companyData';
+import { getEnergyTypeColor, generateSlug } from '@/lib/companyData';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 
 interface CompanyCardProps {
@@ -35,6 +36,9 @@ const CompanyCard = ({ company }: CompanyCardProps) => {
       console.warn(`Invalid URL for favicon: ${company.website}`);
     }
   }
+  
+  // Generate company slug for URL
+  const companySlug = generateSlug(company.name);
 
   return (
     <div className="group animate-in relative rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg bg-white border border-border hover:border-primary/20">
@@ -114,7 +118,7 @@ const CompanyCard = ({ company }: CompanyCardProps) => {
         
         <div className="mt-4 pt-4 border-t border-border flex items-center justify-between">
           <Link
-            to={`/company/${company.id}`}
+            to={`/${companySlug}`}
             className="text-sm font-medium text-primary hover:text-primary/80 transition-colors"
           >
             View details
