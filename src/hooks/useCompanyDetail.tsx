@@ -1,76 +1,63 @@
 
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Company } from '@/lib/types';
-import { getCompanyById, getCompanyBySlug, fetchCompanyData } from '@/lib/companyData';
+import { fetchCompanyData, getCompanyById, getCompanyBySlug } from '@/lib/companyData';
+import { generateSlug } from '@/lib/slugUtils';
+import { useToast } from '@/hooks/use-toast';
 
 export const useCompanyDetail = (id?: string, slug?: string) => {
   const [company, setCompany] = useState<Company | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-  
+  const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
+  const { toast } = useToast();
+
   useEffect(() => {
-    const fetchCompanyDetail = async () => {
+    const loadCompany = async () => {
       setIsLoading(true);
-      setError(null);
-      
       try {
-        // First fetch all companies
-        const companies = await fetchCompanyData();
-        let fetchedCompany = null;
+        const allCompanies = await fetchCompanyData();
         
-        // Then look up the specific company by ID or slug
-        if (id) {
-          fetchedCompany = getCompanyById(companies, id);
-        } else if (slug) {
-          fetchedCompany = getCompanyBySlug(companies, slug);
+        let foundCompany: Company | undefined;
+        
+        if (slug) {
+          foundCompany = getCompanyBySlug(allCompanies, slug);
+        } else if (id) {
+          foundCompany = getCompanyById(allCompanies, id);
+        } else {
+          throw new Error('Neither Company ID nor slug provided');
         }
         
-        if (!fetchedCompany) {
-          setError('Company not found');
-          return;
+        if (foundCompany) {
+          setCompany(foundCompany);
+          
+          // If user accessed by ID but we have a slug, redirect to slug URL for SEO
+          if (id && !slug) {
+            const companySlug = generateSlug(foundCompany.name);
+            navigate(`/${companySlug}`, { replace: true });
+          }
+        } else {
+          toast({
+            title: "Company not found",
+            description: "We couldn't find the company you're looking for.",
+            variant: "destructive",
+          });
+          navigate('/');
         }
-        
-        // Check if this company was recently upgraded to featured status
-        const newlyFeaturedCompanies = JSON.parse(localStorage.getItem('newlyFeaturedCompanies') || '[]');
-        if (newlyFeaturedCompanies.includes(fetchedCompany.id)) {
-          fetchedCompany = {
-            ...fetchedCompany,
-            featured: true
-          };
-        }
-        
-        setCompany(fetchedCompany);
-      } catch (err) {
-        console.error('Error fetching company:', err);
-        setError('Failed to load company data');
+      } catch (error) {
+        console.error('Error loading company data:', error);
+        toast({
+          title: "Error loading data",
+          description: "There was a problem loading the company profile. Please try again later.",
+          variant: "destructive",
+        });
       } finally {
         setIsLoading(false);
       }
     };
     
-    if (id || slug) {
-      fetchCompanyDetail();
-    }
-  }, [id, slug]);
-  
-  // Add function to update company's featured status
-  const updateFeaturedStatus = (companyId: string, isFeatured: boolean) => {
-    if (company && company.id === companyId) {
-      setCompany({
-        ...company,
-        featured: isFeatured
-      });
-      
-      // Store in localStorage to persist through page refreshes
-      if (isFeatured) {
-        const newlyFeaturedCompanies = JSON.parse(localStorage.getItem('newlyFeaturedCompanies') || '[]');
-        if (!newlyFeaturedCompanies.includes(companyId)) {
-          newlyFeaturedCompanies.push(companyId);
-          localStorage.setItem('newlyFeaturedCompanies', JSON.stringify(newlyFeaturedCompanies));
-        }
-      }
-    }
-  };
-  
-  return { company, isLoading, error, updateFeaturedStatus };
+    loadCompany();
+  }, [id, slug, navigate, toast]);
+
+  return { company, isLoading };
 };

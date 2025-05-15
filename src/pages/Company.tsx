@@ -1,95 +1,55 @@
 
-import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { Helmet } from 'react-helmet';
+import { useParams } from 'react-router-dom';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import { useCompanyDetail } from '@/hooks/useCompanyDetail';
 import CompanyHeader from '@/components/company/CompanyHeader';
+import CompanyLogo from '@/components/company/CompanyLogo';
 import CompanyDetails from '@/components/company/CompanyDetails';
 import CompanySidebar from '@/components/company/CompanySidebar';
 import CompanyLoading from '@/components/company/CompanyLoading';
 import CompanyNotFound from '@/components/company/CompanyNotFound';
-import { useCompanyDetail } from '@/hooks/useCompanyDetail';
-import PromoteToBanner from '@/components/payments/PromoteToBanner';
 
-const Company = () => {
-  const { id, slug } = useParams();
-  const navigate = useNavigate();
-  const { company, isLoading, error } = useCompanyDetail(id, slug);
-  const [upgradedCompany, setUpgradedCompany] = useState<typeof company>(null);
+const CompanyPage = () => {
+  const { id, slug } = useParams<{ id?: string; slug?: string }>();
+  const { company, isLoading } = useCompanyDetail(id, slug);
 
-  // Combine the original company data with any upgrades that happened during the session
-  const displayCompany = upgradedCompany || company;
+  if (isLoading) {
+    return <CompanyLoading />;
+  }
 
-  // Handle successful featured upgrade
-  const handleFeaturedUpgrade = (companyId: string) => {
-    if (company) {
-      setUpgradedCompany({
-        ...company,
-        featured: true
-      });
-    }
-  };
-  
-  // If there's an error or company not found
-  if (!isLoading && (error || !company)) {
+  if (!company) {
     return <CompanyNotFound />;
   }
 
   return (
-    <>
-      <Helmet>
-        <title>
-          {isLoading
-            ? 'Loading Company...'
-            : `${displayCompany?.name} | Renewable Energy Directory`}
-        </title>
-        {displayCompany && (
-          <meta
-            name="description"
-            content={`Learn about ${displayCompany.name}, a ${displayCompany.energyTypes.join(
-              ', '
-            )} company based in ${displayCompany.location}.`}
-          />
-        )}
-      </Helmet>
-
+    <div className="flex flex-col min-h-screen">
       <Header />
-
-      <main className="pt-24 pb-16 min-h-screen">
-        {isLoading ? (
-          <CompanyLoading />
-        ) : (
-          <div className="container mx-auto px-4 md:px-6">
-            <div className="max-w-6xl mx-auto">
-              {/* Promotion banner */}
-              {displayCompany && (
-                <PromoteToBanner 
-                  company={displayCompany} 
-                  onUpgrade={handleFeaturedUpgrade}
+      
+      <main className="flex-1 pt-24">
+        <div className="container mx-auto px-4 md:px-6 py-8">
+          <CompanyHeader company={company} />
+          
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="lg:col-span-2 space-y-8 animate-fade-up">
+              <div className="overflow-hidden rounded-lg bg-white border border-border shadow-sm">
+                <CompanyLogo 
+                  logo={company.logo} 
+                  companyName={company.name} 
+                  website={company.website}
                 />
-              )}
-              
-              {/* Company header */}
-              <CompanyHeader company={displayCompany!} />
-              
-              {/* Main content area */}
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-8">
-                <div className="lg:col-span-2">
-                  <CompanyDetails company={displayCompany!} />
-                </div>
-                <div className="lg:col-span-1">
-                  <CompanySidebar company={displayCompany!} />
-                </div>
+                <CompanyDetails company={company} />
               </div>
             </div>
+            
+            <CompanySidebar company={company} />
           </div>
-        )}
+        </div>
       </main>
-
+      
       <Footer />
-    </>
+    </div>
   );
 };
 
-export default Company;
+export default CompanyPage;

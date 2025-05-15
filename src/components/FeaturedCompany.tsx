@@ -1,7 +1,8 @@
+
 import { Link } from 'react-router-dom';
 import { ArrowRight, ExternalLink, MapPin } from 'lucide-react';
 import { Company } from '@/lib/types';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { cn } from '@/lib/utils';
 import { getEnergyTypeColor } from '@/lib/energyUtils';
 import { generateSlug } from '@/lib/slugUtils';
@@ -14,24 +15,6 @@ interface FeaturedCompanyProps {
 const FeaturedCompany = ({ company }: FeaturedCompanyProps) => {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [faviconLoaded, setFaviconLoaded] = useState(false);
-  const [isNewlyFeatured, setIsNewlyFeatured] = useState(false);
-
-  // Check localStorage for newly featured companies
-  useEffect(() => {
-    const newlyFeaturedCompanies = JSON.parse(localStorage.getItem('newlyFeaturedCompanies') || '[]');
-    if (newlyFeaturedCompanies.includes(company.id)) {
-      setIsNewlyFeatured(true);
-      
-      // Clear after 1 hour
-      const timer = setTimeout(() => {
-        setIsNewlyFeatured(false);
-        const filtered = newlyFeaturedCompanies.filter((id: string) => id !== company.id);
-        localStorage.setItem('newlyFeaturedCompanies', JSON.stringify(filtered));
-      }, 60 * 60 * 1000);
-      
-      return () => clearTimeout(timer);
-    }
-  }, [company.id]);
 
   const handleImageLoad = () => {
     setImageLoaded(true);
@@ -59,12 +42,7 @@ const FeaturedCompany = ({ company }: FeaturedCompanyProps) => {
   const companySlug = generateSlug(company.name);
 
   return (
-    <div className={cn(
-      "group rounded-xl overflow-hidden bg-gradient-to-br from-primary/5 to-primary/10 border transition-all duration-300",
-      isNewlyFeatured 
-        ? "border-primary animate-pulse border-2"
-        : "border-primary/20 hover:border-primary/40"
-    )}>
+    <div className="group rounded-xl overflow-hidden bg-gradient-to-br from-primary/5 to-primary/10 border border-primary/20 hover:border-primary/40 transition-all duration-300">
       <div className="grid md:grid-cols-3 gap-6">
         <div className="md:col-span-1 relative h-52 md:h-full overflow-hidden">
           {faviconUrl && !imageLoaded ? (
@@ -107,12 +85,7 @@ const FeaturedCompany = ({ company }: FeaturedCompanyProps) => {
             <div>
               <div className="flex items-center justify-between">
                 <h2 className="text-xl font-semibold">{company.name}</h2>
-                <span className={cn(
-                  "inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium",
-                  isNewlyFeatured 
-                    ? "bg-green-500 text-white animate-pulse" 
-                    : "bg-primary text-primary-foreground"
-                )}>
+                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary text-primary-foreground">
                   Featured
                 </span>
               </div>
