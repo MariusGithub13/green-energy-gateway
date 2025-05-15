@@ -10,6 +10,7 @@ const TermsOfService = () => {
       <Helmet>
         <title>Terms of Service | Renewable Energy Directory</title>
         <meta name="description" content="Read our terms of service for using the Renewable Energy Directory." />
+        <link rel="canonical" href="https://renewableenergy-directory.com/terms.html" />
       </Helmet>
       
       <Header />

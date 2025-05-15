@@ -1,3 +1,4 @@
+
 import { Helmet } from "react-helmet";
 import { Shield } from "lucide-react";
 import Header from "@/components/Header";
@@ -10,7 +11,7 @@ const PrivacyPolicy = () => {
       <Helmet>
         <title>Privacy Policy | Renewable Energy Directory</title>
         <meta name="description" content="Learn about our privacy practices and how we protect your data at the Renewable Energy Directory." />
-        <link rel="canonical" href="https://renewableenergy-directory.com/#/privacy" />
+        <link rel="canonical" href="https://renewableenergy-directory.com/privacy.html" />
       </Helmet>
       
       <Header />

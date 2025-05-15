@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import Header from "@/components/Header";
@@ -120,13 +119,13 @@ const Sitemap = () => {
             <h2 className="text-2xl font-semibold mb-6">Legal & Information</h2>
             <ul className="space-y-4">
               <li>
-                <Link to="/privacy" className="text-primary hover:underline">Privacy Policy</Link>
+                <Link to="/privacy.html" className="text-primary hover:underline">Privacy Policy</Link>
                 <p className="text-sm text-muted-foreground mt-1">
                   Our privacy policy and data practices.
                 </p>
               </li>
               <li>
-                <Link to="/terms" className="text-primary hover:underline">Terms of Service</Link>
+                <Link to="/terms.html" className="text-primary hover:underline">Terms of Service</Link>
                 <p className="text-sm text-muted-foreground mt-1">
                   Terms and conditions for using our directory.
                 </p>

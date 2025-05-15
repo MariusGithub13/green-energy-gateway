@@ -89,13 +89,13 @@ const Footer = () => {
             </p>
             <div className="flex items-center gap-4">
               <Link 
-                to="/privacy" 
+                to="/privacy.html" 
                 className="text-sm text-muted-foreground hover:text-foreground transition-colors"
               >
                 Privacy Policy
               </Link>
               <Link 
-                to="/terms" 
+                to="/terms.html" 
                 className="text-sm text-muted-foreground hover:text-foreground transition-colors"
               >
                 Terms of Service
