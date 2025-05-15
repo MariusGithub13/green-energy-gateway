@@ -9,7 +9,7 @@ export const useCompanyDetail = (id?: string, slug?: string) => {
   const [error, setError] = useState<string | null>(null);
   
   useEffect(() => {
-    const fetchCompanyData = async () => {
+    const fetchCompanyDetail = async () => {
       setIsLoading(true);
       setError(null);
       
@@ -49,7 +49,7 @@ export const useCompanyDetail = (id?: string, slug?: string) => {
     };
     
     if (id || slug) {
-      fetchCompanyData();
+      fetchCompanyDetail();
     }
   }, [id, slug]);
   
