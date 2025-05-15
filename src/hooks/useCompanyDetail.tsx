@@ -1,63 +1,73 @@
-
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import { Company } from '@/lib/types';
-import { fetchCompanyData, getCompanyById, getCompanyBySlug } from '@/lib/companyData';
-import { generateSlug } from '@/lib/slugUtils';
-import { useToast } from '@/hooks/use-toast';
+import { getCompanyById, getCompanyBySlug } from '@/lib/companyData';
 
 export const useCompanyDetail = (id?: string, slug?: string) => {
   const [company, setCompany] = useState<Company | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const navigate = useNavigate();
-  const { toast } = useToast();
-
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+  
   useEffect(() => {
-    const loadCompany = async () => {
+    const fetchCompanyData = async () => {
       setIsLoading(true);
+      setError(null);
+      
       try {
-        const allCompanies = await fetchCompanyData();
+        let fetchedCompany = null;
         
-        let foundCompany: Company | undefined;
-        
-        if (slug) {
-          foundCompany = getCompanyBySlug(allCompanies, slug);
-        } else if (id) {
-          foundCompany = getCompanyById(allCompanies, id);
-        } else {
-          throw new Error('Neither Company ID nor slug provided');
+        // First check if we need to look up by ID or by slug
+        if (id) {
+          fetchedCompany = await getCompanyById(id);
+        } else if (slug) {
+          fetchedCompany = await getCompanyBySlug(slug);
         }
         
-        if (foundCompany) {
-          setCompany(foundCompany);
-          
-          // If user accessed by ID but we have a slug, redirect to slug URL for SEO
-          if (id && !slug) {
-            const companySlug = generateSlug(foundCompany.name);
-            navigate(`/${companySlug}`, { replace: true });
-          }
-        } else {
-          toast({
-            title: "Company not found",
-            description: "We couldn't find the company you're looking for.",
-            variant: "destructive",
-          });
-          navigate('/');
+        if (!fetchedCompany) {
+          setError('Company not found');
+          return;
         }
-      } catch (error) {
-        console.error('Error loading company data:', error);
-        toast({
-          title: "Error loading data",
-          description: "There was a problem loading the company profile. Please try again later.",
-          variant: "destructive",
-        });
+        
+        // Check if this company was recently upgraded to featured status
+        const newlyFeaturedCompanies = JSON.parse(localStorage.getItem('newlyFeaturedCompanies') || '[]');
+        if (newlyFeaturedCompanies.includes(fetchedCompany.id)) {
+          fetchedCompany = {
+            ...fetchedCompany,
+            featured: true
+          };
+        }
+        
+        setCompany(fetchedCompany);
+      } catch (err) {
+        console.error('Error fetching company:', err);
+        setError('Failed to load company data');
       } finally {
         setIsLoading(false);
       }
     };
     
-    loadCompany();
-  }, [id, slug, navigate, toast]);
-
-  return { company, isLoading };
+    if (id || slug) {
+      fetchCompanyData();
+    }
+  }, [id, slug]);
+  
+  // Add function to update company's featured status
+  const updateFeaturedStatus = (companyId: string, isFeatured: boolean) => {
+    if (company && company.id === companyId) {
+      setCompany({
+        ...company,
+        featured: isFeatured
+      });
+      
+      // Store in localStorage to persist through page refreshes
+      if (isFeatured) {
+        const newlyFeaturedCompanies = JSON.parse(localStorage.getItem('newlyFeaturedCompanies') || '[]');
+        if (!newlyFeaturedCompanies.includes(companyId)) {
+          newlyFeaturedCompanies.push(companyId);
+          localStorage.setItem('newlyFeaturedCompanies', JSON.stringify(newlyFeaturedCompanies));
+        }
+      }
+    }
+  };
+  
+  return { company, isLoading, error, updateFeaturedStatus };
 };
