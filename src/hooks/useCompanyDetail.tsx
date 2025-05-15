@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from 'react';
 import { Company } from '@/lib/types';
-import { getCompanyById, getCompanyBySlug } from '@/lib/companyData';
+import { getCompanyById, getCompanyBySlug, fetchCompanyData } from '@/lib/companyData';
 
 export const useCompanyDetail = (id?: string, slug?: string) => {
   const [company, setCompany] = useState<Company | null>(null);
@@ -14,13 +14,15 @@ export const useCompanyDetail = (id?: string, slug?: string) => {
       setError(null);
       
       try {
+        // First fetch all companies
+        const companies = await fetchCompanyData();
         let fetchedCompany = null;
         
-        // First check if we need to look up by ID or by slug
+        // Then look up the specific company by ID or slug
         if (id) {
-          fetchedCompany = await getCompanyById(id, true); // Adding second parameter
+          fetchedCompany = getCompanyById(companies, id);
         } else if (slug) {
-          fetchedCompany = await getCompanyBySlug(slug, true); // Adding second parameter
+          fetchedCompany = getCompanyBySlug(companies, slug);
         }
         
         if (!fetchedCompany) {
