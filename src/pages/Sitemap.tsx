@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import Header from "@/components/Header";
@@ -34,7 +35,7 @@ const Sitemap = () => {
       <Helmet>
         <title>Sitemap | Renewable Energy Directory</title>
         <meta name="description" content="Navigate through all pages of the Renewable Energy Directory." />
-        <link rel="canonical" href="https://renewableenergy-directory.com/sitemap" />
+        <link rel="canonical" href="https://renewableenergy-directory.com/sitemap.html" />
       </Helmet>
       
       <Header />
