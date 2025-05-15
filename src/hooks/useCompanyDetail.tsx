@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { Company } from '@/lib/types';
 import { getCompanyById, getCompanyBySlug } from '@/lib/companyData';
@@ -17,9 +18,9 @@ export const useCompanyDetail = (id?: string, slug?: string) => {
         
         // First check if we need to look up by ID or by slug
         if (id) {
-          fetchedCompany = await getCompanyById(id);
+          fetchedCompany = await getCompanyById(id, true); // Adding second parameter
         } else if (slug) {
-          fetchedCompany = await getCompanyBySlug(slug);
+          fetchedCompany = await getCompanyBySlug(slug, true); // Adding second parameter
         }
         
         if (!fetchedCompany) {
