@@ -132,7 +132,7 @@ const Sitemap = () => {
                 </p>
               </li>
               <li>
-                <Link to="/sitemap" className="text-primary hover:underline">Sitemap</Link>
+                <Link to="/sitemap.html" className="text-primary hover:underline">Sitemap</Link>
                 <p className="text-sm text-muted-foreground mt-1">
                   This page - navigate through all sections of our website.
                 </p>

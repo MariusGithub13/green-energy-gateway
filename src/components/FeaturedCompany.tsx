@@ -1,4 +1,3 @@
-
 import { Link } from 'react-router-dom';
 import { ArrowRight, ExternalLink, MapPin } from 'lucide-react';
 import { Company } from '@/lib/types';
@@ -38,7 +37,7 @@ const FeaturedCompany = ({ company }: FeaturedCompanyProps) => {
     }
   }
   
-  // Generate company slug for URL
+  // Generate company slug for URL with .html extension
   const companySlug = generateSlug(company.name);
 
   return (

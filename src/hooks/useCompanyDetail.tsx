@@ -21,7 +21,12 @@ export const useCompanyDetail = (id?: string, slug?: string) => {
         let foundCompany: Company | undefined;
         
         if (slug) {
-          foundCompany = getCompanyBySlug(allCompanies, slug);
+          // If the slug includes .html extension, remove it for the lookup
+          const slugWithoutExt = slug.endsWith('.html') 
+            ? slug.slice(0, -5) 
+            : slug;
+          
+          foundCompany = getCompanyBySlug(allCompanies, slugWithoutExt);
         } else if (id) {
           foundCompany = getCompanyById(allCompanies, id);
         } else {
@@ -31,8 +36,8 @@ export const useCompanyDetail = (id?: string, slug?: string) => {
         if (foundCompany) {
           setCompany(foundCompany);
           
-          // If user accessed by ID but we have a slug, redirect to slug URL for SEO
-          if (id && !slug) {
+          // If user accessed by ID or non-HTML slug, redirect to HTML slug URL for SEO
+          if ((id && !slug) || (slug && !slug.endsWith('.html'))) {
             const companySlug = generateSlug(foundCompany.name);
             navigate(`/${companySlug}`, { replace: true });
           }

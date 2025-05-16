@@ -8,5 +8,6 @@ export const generateSlug = (name: string): string => {
     .replace(/[^\w\s-]/g, '') // Remove special characters
     .replace(/\s+/g, '-') // Replace spaces with hyphens
     .replace(/-+/g, '-') // Remove consecutive hyphens
-    .trim(); // Trim leading/trailing spaces or hyphens
+    .trim() + '.html'; // Add .html extension
 };
+

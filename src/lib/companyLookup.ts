@@ -10,10 +10,21 @@ export const getCompanyById = (companies: Company[], id: string): Company | unde
 };
 
 /**
- * Finds a company by its slug
+ * Finds a company by its slug, with or without .html extension
  */
 export const getCompanyBySlug = (companies: Company[], slug: string): Company | undefined => {
-  return companies.find(company => generateSlug(company.name) === slug);
+  // Remove .html extension if present for comparison
+  const normalizedSlug = slug.endsWith('.html') ? slug.slice(0, -5) : slug;
+  
+  return companies.find(company => {
+    const companySlug = generateSlug(company.name);
+    // Remove .html from generated slug for comparison
+    const normalizedCompanySlug = companySlug.endsWith('.html') 
+      ? companySlug.slice(0, -5) 
+      : companySlug;
+      
+    return normalizedCompanySlug === normalizedSlug;
+  });
 };
 
 /**
