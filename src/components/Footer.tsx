@@ -12,7 +12,7 @@ const Footer = () => {
           <div className="space-y-4">
             <div className="flex items-center">
               <Leaf className="h-6 w-6 text-primary mr-2" />
-              <span className="font-display text-lg font-semibold">Renewable Directory</span>
+              <span className="font-display text-lg font-semibold">Renewable Energy Directory</span>
             </div>
             <p className="text-muted-foreground max-w-sm">
               The comprehensive directory of renewable energy companies from around the world, 

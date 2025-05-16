@@ -81,7 +81,7 @@ const Header = () => {
         >
           <Leaf className="h-8 w-8 text-primary" />
           <span className="font-display text-xl font-semibold tracking-tight">
-            Renewable Directory
+            Renewable Energy Directory
           </span>
         </Link>
 
