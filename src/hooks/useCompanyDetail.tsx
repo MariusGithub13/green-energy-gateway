@@ -21,7 +21,7 @@ export const useCompanyDetail = (id?: string, slug?: string) => {
         let foundCompany: Company | undefined;
         
         if (slug) {
-          // If the slug includes .html extension, remove it for the lookup
+          // Handle slug lookup with or without .html extension
           const slugWithoutExt = slug.endsWith('.html') 
             ? slug.slice(0, -5) 
             : slug;
@@ -29,25 +29,26 @@ export const useCompanyDetail = (id?: string, slug?: string) => {
           foundCompany = getCompanyBySlug(allCompanies, slugWithoutExt);
         } else if (id) {
           foundCompany = getCompanyById(allCompanies, id);
+          
+          // Only redirect from ID to slug if explicitly accessed by ID
+          if (foundCompany) {
+            const companySlug = generateSlug(foundCompany.name);
+            navigate(`/${companySlug}`, { replace: true });
+            return; // Exit early to avoid setting company state twice
+          }
         } else {
           throw new Error('Neither Company ID nor slug provided');
         }
         
         if (foundCompany) {
           setCompany(foundCompany);
-          
-          // If user accessed by ID or non-HTML slug, redirect to HTML slug URL for SEO
-          if ((id && !slug) || (slug && !slug.endsWith('.html'))) {
-            const companySlug = generateSlug(foundCompany.name);
-            navigate(`/${companySlug}`, { replace: true });
-          }
         } else {
           toast({
             title: "Company not found",
             description: "We couldn't find the company you're looking for.",
             variant: "destructive",
           });
-          navigate('/');
+          navigate('/', { replace: true });
         }
       } catch (error) {
         console.error('Error loading company data:', error);
@@ -56,6 +57,7 @@ export const useCompanyDetail = (id?: string, slug?: string) => {
           description: "There was a problem loading the company profile. Please try again later.",
           variant: "destructive",
         });
+        navigate('/', { replace: true });
       } finally {
         setIsLoading(false);
       }
