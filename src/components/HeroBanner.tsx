@@ -17,7 +17,7 @@ const HeroBanner = () => {
           The comprehensive renewable energy directory
         </div>
         <h1 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold mb-4 tracking-tight animate-fade-up">
-          Discover Renewable Energy Companies
+          Renewable Energy Directory - Find Sustainable Energy Companies Worldwide
         </h1>
         <p className="max-w-2xl mx-auto text-lg text-muted-foreground mb-8 animate-fade-up" style={{ animationDelay: '100ms' }}>
           Explore our curated directory of companies leading the transition to clean, 
