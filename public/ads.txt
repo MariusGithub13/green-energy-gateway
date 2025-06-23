@@ -1,11 +1,10 @@
+
 # Ads.txt v20250407
 managerdomain=journeymv.com
 contact=sales@journeymv.com
 ownerdomain=renewableenergy-directory.com
 journeymv.com, af369da2-a9c6-4011-aaf4-abd48bd70ecf, DIRECT, 1363c924529b3998
 
-google.com, pub-1601477034266482, DIRECT, f08c47fec0942fa0
-google.com, pub-1601477034266482, RESELLER, f08c47fec0942fa0
 media.net, 8CU41446D, DIRECT
 pubmatic.com, 159463, RESELLER, 5d62403b186f2ace
 openx.com, 537100188, RESELLER, 6a698e2ec38604c6
@@ -133,6 +132,3 @@ emxdgt.com, 1403, DIRECT, 1e1d41537f7cad7f
 conversantmedia.com, 100316, RESELLER, 03113cd04947736d
 video.unrulymedia.com, 232050197, DIRECT
 trustx.org, 5606, DIRECT, 1d2c8a747a749d25
-
-
-
