@@ -27,15 +27,12 @@ const App = () => (
         <Suspense fallback={<div>Loading...</div>}>
           <Routes>
             <Route path="/" element={<Index />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/terms" element={<TermsOfService />} />
+            <Route path="/contact.html" element={<Contact />} />
             <Route path="/terms.html" element={<TermsOfService />} />
-            <Route path="/privacy" element={<PrivacyPolicy />} />
             <Route path="/privacy.html" element={<PrivacyPolicy />} />
-            <Route path="/about" element={<AboutUs />} />
+            <Route path="/about.html" element={<AboutUs />} />
             <Route path="/company/:id" element={<Company />} />
-            <Route path="/:slug" element={<Company />} />
-            <Route path="/sitemap" element={<Sitemap />} />
+            <Route path="/:slug.html" element={<Company />} />
             <Route path="/sitemap.html" element={<Sitemap />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />

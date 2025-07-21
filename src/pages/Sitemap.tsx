@@ -76,13 +76,13 @@ const Sitemap = () => {
                   </p>
                 </li>
                 <li>
-                  <Link to="/about" className="text-primary hover:underline">About Us</Link>
+                  <Link to="/about.html" className="text-primary hover:underline">About Us</Link>
                   <p className="text-sm text-muted-foreground mt-1">
                     Learn about our mission and team.
                   </p>
                 </li>
                 <li>
-                  <Link to="/contact" className="text-primary hover:underline">Submit Your Company</Link>
+                  <Link to="/contact.html" className="text-primary hover:underline">Submit Your Company</Link>
                   <p className="text-sm text-muted-foreground mt-1">
                     Add your renewable energy company to our directory.
                   </p>
