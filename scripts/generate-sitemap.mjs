@@ -14,15 +14,15 @@ async function generateSitemap() {
 
   const pages = [
     { url: '/', priority: 1.0, changefreq: 'daily' },
-    { url: '/about', priority: 0.8, changefreq: 'monthly' },
-    { url: '/contact', priority: 0.7, changefreq: 'monthly' },
-    { url: '/privacy', priority: 0.5, changefreq: 'yearly' },
-    { url: '/terms', priority: 0.5, changefreq: 'yearly' },
-    { url: '/sitemap', priority: 0.6, changefreq: 'monthly' },
+    { url: '/about.html', priority: 0.8, changefreq: 'monthly' },
+    { url: '/contact.html', priority: 0.7, changefreq: 'monthly' },
+    { url: '/privacy.html', priority: 0.5, changefreq: 'yearly' },
+    { url: '/terms.html', priority: 0.5, changefreq: 'yearly' },
+    { url: '/sitemap.html', priority: 0.6, changefreq: 'monthly' },
   ];
 
   const companyPages = companyData.map(company => ({
-    url: `/${generateSlug(company.name, false)}`,
+    url: `/${generateSlug(company.name)}`,
     priority: 0.7,
     changefreq: 'monthly',
   }));
