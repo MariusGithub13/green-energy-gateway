@@ -86,7 +86,7 @@ const Header = () => {
         </Link>
 
         {/* Desktop navigation */}
-        <nav className="hidden md:flex items-center space-x-1">
+        <nav className="hidden md:flex items-center space-x-1" role="navigation" aria-label="Main navigation">
           {navItems.map((item) => (
             <Link
               key={item.path}
@@ -110,6 +110,7 @@ const Header = () => {
           className="md:hidden inline-flex items-center justify-center p-2 rounded-md text-foreground"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
           aria-expanded={isMenuOpen}
+          aria-controls="mobile-menu"
         >
           <span className="sr-only">Open main menu</span>
           {isMenuOpen ? (
@@ -122,16 +123,18 @@ const Header = () => {
 
       {/* Mobile menu, show/hide based on menu state */}
       <div
+        id="mobile-menu"
         className={cn(
           "md:hidden transition-all duration-300 ease-in-out fixed inset-0 bg-white z-40 pt-20",
           isMenuOpen ? "opacity-100" : "opacity-0 pointer-events-none"
         )}
       >
-        <div className="px-4 py-2 space-y-1">
+        <div className="px-4 py-2 space-y-1" role="menu">
           {navItems.map((item) => (
             <Link
               key={item.path}
               to={item.path}
+              role="menuitem"
               className={cn(
                 "block px-4 py-3 rounded-md text-base font-medium transition-all duration-200 flex items-center",
                 isActive(item.path)

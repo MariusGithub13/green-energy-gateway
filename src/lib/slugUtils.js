@@ -2,7 +2,7 @@
 /**
  * Generates a URL-friendly slug from a company name
  */
-export const generateSlug = (name: string): string => {
+export const generateSlug = (name) => {
   return name
     .toLowerCase()
     .replace(/[^\w\s-]/g, '') // Remove special characters

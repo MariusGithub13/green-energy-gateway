@@ -107,6 +107,8 @@ const FilterPanel = ({
             variant="outline"
             className="flex items-center gap-2"
             onClick={() => setIsExpanded(!isExpanded)}
+            aria-expanded={isExpanded}
+            aria-controls="filter-options"
           >
             <Filter className="h-4 w-4" />
             <span className="hidden sm:inline">Filters</span>
@@ -121,19 +123,21 @@ const FilterPanel = ({
         />
 
         {isExpanded && (
-          <FilterOptionsPanel
-            energyTypes={energyTypes}
-            selectedEnergyTypes={filters.energyTypes}
-            countries={countries}
-            selectedCountries={filters.countries}
-            regions={regions}
-            selectedRegions={filters.regions}
-            featured={filters.featured}
-            onEnergyTypeToggle={handleEnergyTypeToggle}
-            onCountryToggle={handleCountryToggle}
-            onRegionToggle={handleRegionToggle}
-            onFeaturedToggle={handleFeaturedToggle}
-          />
+          <div id="filter-options">
+            <FilterOptionsPanel
+              energyTypes={energyTypes}
+              selectedEnergyTypes={filters.energyTypes}
+              countries={countries}
+              selectedCountries={filters.countries}
+              regions={regions}
+              selectedRegions={filters.regions}
+              featured={filters.featured}
+              onEnergyTypeToggle={handleEnergyTypeToggle}
+              onCountryToggle={handleCountryToggle}
+              onRegionToggle={handleRegionToggle}
+              onFeaturedToggle={handleFeaturedToggle}
+            />
+          </div>
         )}
       </div>
     </div>

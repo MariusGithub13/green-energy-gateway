@@ -1,6 +1,7 @@
 
 import { Helmet } from "react-helmet";
 import { Mail, MapPin, Phone, Info } from "lucide-react";
+import { Helmet } from "react-helmet";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ContactForm from "@/components/ContactForm";

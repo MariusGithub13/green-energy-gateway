@@ -1,5 +1,6 @@
 
 import { useState } from 'react';
+import { Helmet } from 'react-helmet';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import FilterPanel from '@/components/FilterPanel';
@@ -46,6 +47,12 @@ const Index = () => {
 
   return (
     <div className="flex flex-col min-h-screen">
+      <Helmet>
+        <title>Renewable Energy Directory | Find Sustainable Energy Companies Worldwide</title>
+        <meta name="description" content="Discover a comprehensive directory of renewable energy companies worldwide. Find solar, wind, hydro, geothermal and biomass energy providers." />
+        <link rel="canonical" href="https://renewableenergy-directory.com" />
+      </Helmet>
+
       <Header />
       
       <main className="flex-1 pt-24">
