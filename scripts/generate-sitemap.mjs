@@ -22,7 +22,7 @@ async function generateSitemap() {
   ];
 
   const companyPages = companyData.map(company => ({
-    url: `/${generateSlug(company.name)}`,
+    url: `/${generateSlug(company.name, false)}`,
     priority: 0.7,
     changefreq: 'monthly',
   }));
