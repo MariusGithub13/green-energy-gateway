@@ -1,5 +1,6 @@
 
 import { useParams } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { useCompanyDetail } from '@/hooks/useCompanyDetail';
@@ -9,6 +10,7 @@ import CompanyDetails from '@/components/company/CompanyDetails';
 import CompanySidebar from '@/components/company/CompanySidebar';
 import CompanyLoading from '@/components/company/CompanyLoading';
 import CompanyNotFound from '@/components/company/CompanyNotFound';
+import { generateSlug } from '@/lib/slugUtils';
 
 const CompanyPage = () => {
   const { id, slug } = useParams<{ id?: string; slug?: string }>();
@@ -22,8 +24,16 @@ const CompanyPage = () => {
     return <CompanyNotFound />;
   }
 
+  const canonicalUrl = `https://renewableenergy-directory.com/${generateSlug(company.name)}`;
+
   return (
     <div className="flex flex-col min-h-screen">
+      <Helmet>
+        <title>{`${company.name} | Renewable Energy Directory`}</title>
+        <meta name="description" content={company.description} />
+        <link rel="canonical" href={canonicalUrl} />
+      </Helmet>
+
       <Header />
       
       <main className="flex-1 pt-24">
