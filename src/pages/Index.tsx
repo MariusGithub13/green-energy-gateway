@@ -46,7 +46,7 @@ const Index = () => {
   };
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-background">
       <Helmet>
         <title>Renewable Energy Directory | Find Sustainable Energy Companies Worldwide</title>
         <meta name="description" content="Discover a comprehensive directory of renewable energy companies worldwide. Find solar, wind, hydro, geothermal and biomass energy providers." />
@@ -55,7 +55,7 @@ const Index = () => {
 
       <Header />
       
-      <main className="flex-1 pt-24">
+      <main className="flex-1 pt-24 fade-in">
         {/* Hero Banner */}
         <HeroBanner />
         

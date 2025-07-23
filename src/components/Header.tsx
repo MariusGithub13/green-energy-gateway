@@ -71,7 +71,7 @@ const Header = () => {
     <header 
       className={cn(
         "fixed w-full top-0 z-50 transition-all duration-300 ease-in-out py-4",
-        isScrolled ? "bg-white/80 backdrop-blur-md shadow-sm" : "bg-transparent"
+        isScrolled ? "bg-background/80 backdrop-blur-md shadow-sm" : "bg-transparent"
       )}
     >
       <div className="container mx-auto px-4 md:px-6 flex items-center justify-between">
@@ -80,7 +80,7 @@ const Header = () => {
           className="flex items-center space-x-2 transition-opacity duration-200 hover:opacity-80"
         >
           <Leaf className="h-8 w-8 text-primary" />
-          <span className="font-display text-xl font-semibold tracking-tight">
+          <span className="font-display text-xl font-semibold tracking-tight text-foreground">
             Renewable Energy Directory
           </span>
         </Link>
@@ -125,7 +125,7 @@ const Header = () => {
       <div
         id="mobile-menu"
         className={cn(
-          "md:hidden transition-all duration-300 ease-in-out fixed inset-0 bg-white z-40 pt-20",
+          "md:hidden transition-all duration-300 ease-in-out fixed inset-0 bg-background z-40 pt-20",
           isMenuOpen ? "opacity-100" : "opacity-0 pointer-events-none"
         )}
       >

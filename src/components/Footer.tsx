@@ -6,7 +6,7 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
   
   return (
-    <footer className="bg-white border-t border-border/60 mt-16">
+    <footer className="bg-secondary border-t border-border/60 mt-16">
       <div className="container mx-auto px-4 md:px-6 py-12">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
           <div className="space-y-4">
@@ -54,27 +54,27 @@ const Footer = () => {
             </h3>
             <ul className="space-y-3">
               <li>
-                <Link to="/?type=solar" className="text-foreground/80 hover:text-renewable-solar transition-colors">
+                <Link to="/?type=solar" className="text-foreground/80 hover:text-primary transition-colors">
                   Solar Energy
                 </Link>
               </li>
               <li>
-                <Link to="/?type=wind" className="text-foreground/80 hover:text-renewable-wind transition-colors">
+                <Link to="/?type=wind" className="text-foreground/80 hover:text-primary transition-colors">
                   Wind Energy
                 </Link>
               </li>
               <li>
-                <Link to="/?type=hydro" className="text-foreground/80 hover:text-renewable-hydro transition-colors">
+                <Link to="/?type=hydro" className="text-foreground/80 hover:text-primary transition-colors">
                   Hydroelectric
                 </Link>
               </li>
               <li>
-                <Link to="/?type=geothermal" className="text-foreground/80 hover:text-renewable-geo transition-colors">
+                <Link to="/?type=geothermal" className="text-foreground/80 hover:text-primary transition-colors">
                   Geothermal
                 </Link>
               </li>
               <li>
-                <Link to="/?type=biomass" className="text-foreground/80 hover:text-renewable-bio transition-colors">
+                <Link to="/?type=biomass" className="text-foreground/80 hover:text-primary transition-colors">
                   Biomass
                 </Link>
               </li>
